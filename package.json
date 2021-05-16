@@ -1,0 +1,19 @@
+{
+  "name": "3d-globe",
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite --host",
+    "build": "vite build",
+    "serve": "vite preview"
+  },
+  "devDependencies": {
+    "eslint": "^7.26.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.23.2",
+    "vite": "^2.3.0"
+  },
+  "dependencies": {
+    "three": "^0.128.0",
+    "tween.js": "^16.6.0"
+  }
+}

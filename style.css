@@ -1,0 +1,41 @@
+html {
+  background: white;
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  z-index: 10;
+}
+
+.content {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 1rem;
+  font-size: 2em;
+  z-index: 10;
+  max-width: 40%;
+  pointer-events: none;
+}
+
+p {
+  font-size: 0.7em;
+  line-height: 1.5;
+}
+
+canvas {
+  animation: in 2s cubic-bezier(0.23, 1, 0.32, 1) 0.25s backwards;
+  background: transparent;
+  position: absolute;
+}
+
+@keyframes in {
+  from {
+    opacity: 0;
+  }
+}
