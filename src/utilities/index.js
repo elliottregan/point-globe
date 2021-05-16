@@ -46,7 +46,7 @@ function polar2cartesian(polar) {
 function polar2canvas({ phi, theta }) {
   return {
     y: phi / Math.PI,
-    x: (theta + Math.PI) / (2 * Math.PI),
+    x: (theta + 0.5 * Math.PI) / (2 * Math.PI),
   };
 }
 

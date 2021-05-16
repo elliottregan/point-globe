@@ -9,7 +9,9 @@ import {
   polar2canvas,
   getImageData,
   getPixel,
+  latLongToVector3,
 } from './src/utilities';
+import data from './src/data/locations.json';
 
 function Earth(el) {
   let camera; let scene; let renderer; let w; let
@@ -37,7 +39,7 @@ function Earth(el) {
   };
 
   const center = new THREE.Vector3(0, 0, 0);
-  const distance = 350;
+  const camDistance = 350;
   const PI_HALF = Math.PI / 2;
   const radius = 150;
 
@@ -51,7 +53,7 @@ function Earth(el) {
     w = window.innerWidth;
     h = window.innerHeight;
 
-    camera = new THREE.PerspectiveCamera(distance / 5, w / h, 1, distance * 2);
+    camera = new THREE.PerspectiveCamera(camDistance / 5, w / h, 1, camDistance * 2);
     scene = new THREE.Scene();
     scene.add(camera);
 
@@ -59,7 +61,7 @@ function Earth(el) {
 
     const light = new THREE.PointLight('#fafafa', 0.35);
     camera.add(light);
-    light.position.set(distance / 2, distance / 2, 0);
+    light.position.set(camDistance / 2, camDistance / 2, 0);
     light.target = camera;
 
     // Earth
@@ -76,9 +78,10 @@ function Earth(el) {
     // earthCutout.repeat.set(1, 1);
 
     const earthGeometry = new THREE.SphereGeometry(radius, 50, 30);
-    const earthMaterial = new THREE.MeshPhongMaterial({
-      emissive: '#000',
-      specular: '#000',
+    const earthMaterial = new THREE.MeshLambertMaterial({
+      emissive: 0x000,
+      opacity: 0.9,
+      transparent: true,
     });
 
     const earth = new THREE.Mesh(earthGeometry, earthMaterial);
@@ -86,15 +89,14 @@ function Earth(el) {
 
     function addDots(maskImageData) {
       // Create 60000 tiny dots and spiral them around the sphere.
-      const DOT_COUNT = 40000;
+      const DOT_COUNT = 100000;
 
       const vector = new THREE.Vector3();
       const positions = [];
       const dotMaterial = new THREE.MeshBasicMaterial({
         color: 0xffffff,
-        // side: THREE.DoubleSide
+        side: THREE.DoubleSide,
       });
-
       for (let i = DOT_COUNT; i >= 0; i--) {
         // A hexagon with a radius of 2 pixels looks like a circle
         const r = 150;
@@ -122,12 +124,13 @@ function Earth(el) {
           samplePosition.y,
         );
 
-        if (Object.values(pixelData).reduce((a, b) => a + b) <= 255 * 2) {
-          const dotGeometry = new THREE.CircleBufferGeometry(1, 5);
+        if (Object.values(pixelData).reduce((a, b) => a + b) <= 255 * 3) {
+          const dotGeometry = new THREE.CircleBufferGeometry(0.35, 5);
           dotGeometry.lookAt(vector);
 
           // Move the dot to the newly calculated position
           dotGeometry.translate(vector.x, vector.y, vector.z);
+          dotGeometry.renderOrder = 1;
 
           positions.push(dotGeometry);
         }
@@ -138,6 +141,26 @@ function Earth(el) {
       );
       const dots = new THREE.Mesh(globalGeometry, dotMaterial);
       scene.add(dots);
+    }
+    const points = [];
+    for (let i = 0; i < data.length; i++) {
+      points.push(new AddPoint(data[i].lat, data[i].long, data[i].r, i));
+
+      const newLine = drawCurve(points[0].position, points[i].position);
+
+      new TWEEN.Tween(newLine)
+        .to(
+          {
+            currentPoint: 200,
+          },
+          2000,
+        )
+        .delay(i * 350 + 1500)
+        .easing(TWEEN.Easing.Cubic.Out)
+        .onUpdate(() => {
+          newLine.geometry.setDrawRange(0, newLine.currentPoint);
+        })
+        .start();
     }
 
     // Renderer
@@ -157,6 +180,119 @@ function Earth(el) {
     // DOM
 
     el.appendChild(renderer.domElement);
+  }
+
+  function AddPoint(lat, lng, r, i) {
+    const position = latLongToVector3(lat, lng, radius);
+
+    const pointGeometry = new THREE.SphereGeometry(r, 32, 32);
+    const pointMaterial = new THREE.MeshBasicMaterial({
+      color: '#ef0018',
+      opacity: 1,
+      // side: THREE.DoubleSide,
+      // transparent: true,
+    });
+
+    const point = new THREE.Mesh(pointGeometry, pointMaterial);
+    point.position.set(position.x, position.y, position.z);
+    point.scale.set(0.01, 0.01, 0.01);
+    point.lookAt(center);
+    scene.add(point);
+
+    new TWEEN.Tween(point.scale)
+      .to(
+        {
+          x: 1,
+          y: 1,
+          z: 1,
+        },
+        1000,
+      )
+      .delay(i * 350 + 1500)
+      .easing(TWEEN.Easing.Cubic.Out)
+      .start();
+
+    const pointRingGeometry = new THREE.RingGeometry(r + 0.5, r + 1.5, 32);
+    const pointRingMaterial = new THREE.MeshBasicMaterial({
+      color: '#ef0018',
+      opacity: 0.5,
+      side: THREE.DoubleSide,
+      transparent: true,
+    });
+
+    const pointRing = new THREE.Mesh(pointRingGeometry, pointRingMaterial);
+    pointRing.position.set(position.x, position.y, position.z);
+    pointRing.scale.set(0.01, 0.01, 0.01);
+    pointRing.lookAt(center);
+    scene.add(pointRing);
+
+    new TWEEN.Tween(pointRing.scale)
+      .to(
+        {
+          x: 1,
+          y: 1,
+          z: 1,
+        },
+        1500,
+      )
+      .delay(i * 350 + 1500)
+      .easing(TWEEN.Easing.Cubic.Out)
+      .start();
+
+    return point;
+  }
+
+  function drawCurve(a, b, i) {
+    const distance = a.clone().sub(b).length();
+
+    const mid = a.clone().lerp(b, 0.5);
+    const midLength = mid.length();
+    mid.normalize();
+    mid.multiplyScalar(midLength + distance * 0.25);
+
+    const normal = new THREE.Vector3().subVectors(a, b);
+    normal.normalize();
+
+    const midStart = mid
+      .clone()
+      .add(normal.clone().multiplyScalar(distance * 0.25));
+    const midEnd = mid
+      .clone()
+      .add(normal.clone().multiplyScalar(distance * -0.25));
+
+    const splineCurveA = new THREE.CubicBezierCurve3(a, a, midStart, mid);
+    const splineCurveB = new THREE.CubicBezierCurve3(mid, midEnd, b, b);
+
+    let points = splineCurveA.getPoints(100);
+    points = points.splice(0, points.length - 1);
+    points = points.concat(splineCurveB.getPoints(100));
+    points.push(center);
+
+    const lineGeometry = new THREE.BufferGeometry();
+    const positions = new Float32Array(points.length * 3);
+    for (let ii = 0; ii < points.length; ii++) {
+      positions[ii * 3 + 0] = points[ii].x;
+      positions[ii * 3 + 1] = points[ii].y;
+      positions[ii * 3 + 2] = points[ii].z;
+    }
+    lineGeometry.addAttribute(
+      'position',
+      new THREE.BufferAttribute(positions, 3),
+    );
+    lineGeometry.setDrawRange(0, 0);
+
+    const lineMaterial = new THREE.LineBasicMaterial({
+      color: new THREE.Color('#ff3600'),
+      linewidth: 8,
+      opacity: 0.75,
+      transparent: true,
+    });
+
+    const line = new THREE.Line(lineGeometry, lineMaterial);
+    line.currentPoint = 0;
+
+    scene.add(line);
+    return line;
   }
 
   // -------------------------------------
@@ -225,9 +361,9 @@ function Earth(el) {
     rotation.x += (target.x - rotation.x) * 0.1;
     rotation.y += (target.y - rotation.y) * 0.1;
 
-    camera.position.x = distance * Math.sin(rotation.x) * Math.cos(rotation.y);
-    camera.position.y = distance * Math.sin(rotation.y);
-    camera.position.z = distance * Math.cos(rotation.x) * Math.cos(rotation.y);
+    camera.position.x = camDistance * Math.sin(rotation.x) * Math.cos(rotation.y);
+    camera.position.y = camDistance * Math.sin(rotation.y);
+    camera.position.z = camDistance * Math.cos(rotation.x) * Math.cos(rotation.y);
 
     camera.lookAt(center);
     renderer.render(scene, camera);
