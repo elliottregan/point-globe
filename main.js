@@ -91,7 +91,7 @@ function Earth(el) {
 
     function addDots(maskImageData) {
       // Create 60000 tiny dots and spiral them around the sphere.
-      const DOT_COUNT = 100000;
+      const DOT_COUNT = 50000;
 
       const vector = new THREE.Vector3();
       const positions = [];
@@ -127,7 +127,7 @@ function Earth(el) {
         );
 
         if (Object.values(pixelData).reduce((a, b) => a + b) <= 255 * 3) {
-          const dotGeometry = new THREE.CircleBufferGeometry(genRandDecimal(0.2, 0.3, 3), 5);
+          const dotGeometry = new THREE.CircleBufferGeometry(genRandDecimal(0.4, 0.5, 3), 8);
           dotGeometry.lookAt(vector);
 
           // Move the dot to the newly calculated position
