@@ -1,0 +1,887 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "A1 Bulgaria EAD",
+                "country": "Bulgaria"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    23.3494066830948,
+                    42.6573556850612
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Access Communications",
+                "country": "Canada"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -104.572370999999,
+                    50.443013
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Armstrong Utilities, Inc.",
+                "country": "United States"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -79.5287849999999,
+                    40.829634
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Atlantic Broadband",
+                "country": "United States"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -71.0022354,
+                    42.2536801
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "BGCTV Beijing Gehua CATV Network Co. Ltd.",
+                "country": "China"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    116.304481,
+                    39.973073
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Cable One, Inc.",
+                "country": "United States"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -112.069851999999,
+                    33.463005
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "CableAmerica Corp",
+                "country": "United States"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -111.911957747026,
+                    33.6128921973586
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Cablenet Communication Systems Ltd.",
+                "country": "Cyprus"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    33.3487149999999,
+                    35.149577
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Cablevideo Digital S.A.",
+                "country": "Argentina"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -60.6990566,
+                    -31.620827
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "CCI Systems Inc. d.b.a. Astrea",
+                "country": "United States"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -88.0658697921221,
+                    45.8238760289172
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "CCN Chongqing Cable Networks Co. Ltd.",
+                "country": "China"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    106.5315746,
+                    29.6250954
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Charter Communications Corp.",
+                "country": "United States"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -90.1668096999999,
+                    38.6280988
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Cogeco Communications Inc.",
+                "country": "Canada"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -73.5686799999999,
+                    45.50179
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Comcast Cable Communications",
+                "country": "United States"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -75.4119529999999,
+                    40.121307
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Cox Communications, Inc.",
+                "country": "United States"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -84.3449699999999,
+                    33.914239
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "DNA Welho OY",
+                "country": "Finland"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    24.9421541,
+                    60.2203403
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "EastLink (Bragg Group of Companies)",
+                "country": "Canada"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -63.6039739999999,
+                    44.658413
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Euskaltel S.A.",
+                "country": "Spain"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -2.93446659999995,
+                    43.2616565
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "GCI Liberty",
+                "country": "United States"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -149.896397025746,
+                    61.1888242596918
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "GDM Guangzhou Digital Media Group Co. Ltd.",
+                "country": "China"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    113.340156799999,
+                    23.1074807
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Grupo Televisa S.A.B.",
+                "country": "Mexico"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -99.252108,
+                    19.375876
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Guangdong Cable Corporation Limited",
+                "country": "China"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    113.596373599999,
+                    22.3536421
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Henan Cable TV Network Group Co. Ltd.",
+                "country": "China"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    113.707537,
+                    34.772531
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "J:COM Jupiter Telecommunications Co. Ltd",
+                "country": "Japan"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    139.769802799999,
+                    35.6832101
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "JSCN Jiangsu Broadcasting Cable Information Network Corp. Ltd.",
+                "country": "China"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    118.761019,
+                    32.079448
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Liberty Global PLC",
+                "country": "United States"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -105.002554648664,
+                    39.7528101953774
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Liberty Latin America - LLA",
+                "country": "United States"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -105.002554648664,
+                    39.7528101953774
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Liwest Kabelmedien GmbH",
+                "country": "Austria"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    14.2909339999999,
+                    48.323045
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Lyons Communications, LLC",
+                "country": "United States"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -105.2715111,
+                    40.2247621
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Massillon Cable TV Inc (MCTV)",
+                "country": "United States"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -81.5345811934546,
+                    40.8017578548015
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Mediacom Communications Corporation",
+                "country": "United States"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -74.2063339999999,
+                    41.352129
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Melita PLC",
+                "country": "Malta"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    14.4627714,
+                    35.9292317
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "MIDCO",
+                "country": "United States"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -96.7312669130062,
+                    43.5448617724575
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Millicom International Cellular S.A.",
+                "country": "Luxembourg"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    6.13307989999998,
+                    49.6037476
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "nbn National Broadband Network",
+                "country": "Australia"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    151.209600842997,
+                    -33.8398598237241
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Norlys",
+                "country": "Denmark"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    10.1493828204373,
+                    56.1032816681568
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "NOS COMUNICAÇÕES",
+                "country": "Portugal"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -9.13932609896462,
+                    38.7222034787466
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "NOWO Communications SA",
+                "country": "Portugal"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -9.09804688900651,
+                    38.7474812444045
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "PT Link Net Tbk",
+                "country": "Indonesia"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    106.990764,
+                    -6.248454
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Rogers Communication, Inc.",
+                "country": "Canada"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -79.3811799999999,
+                    43.650018
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Schurz Communications Inc.",
+                "country": "United States"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -86.1654461024164,
+                    41.7087652223566
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Seaside Communications, Inc.",
+                "country": "Canada"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -60.092461,
+                    46.171739
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "SFR Group Numericable",
+                "country": "France"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    2.3623,
+                    48.868237
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Shaw Communications Inc.",
+                "country": "Canada"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -114.075391999999,
+                    51.051164
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Shenzhen Topway Video Communication Co. Ltd.",
+                "country": "China"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    114.077739,
+                    22.528491
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Sjoberg's Inc.",
+                "country": "United States"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -96.181934,
+                    48.119749
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Taiwan Broadband Communications Co. Ltd. (TBC)",
+                "country": "Chinese Taipei"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    121.5233803,
+                    25.0527904
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "TDC A/S",
+                "country": "Denmark"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    12.6207584383118,
+                    55.6654981993256
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "TDS Broadband, LLC.",
+                "country": "United States"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -89.5240784310041,
+                    43.0724484812428
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Tele Columbus AG (PŸUR)",
+                "country": "Germany"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    13.363014,
+                    52.491578
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Tele2 Sverige AB",
+                "country": "Sweden"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    17.956717667007,
+                    59.4041587387529
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Telecom Argentina S.A.",
+                "country": "Argentina"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -58.3766976890288,
+                    -34.6355079953332
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Telefonia por Cable S.A de C.V.",
+                "country": "Mexico"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -103.367376249716,
+                    20.6511023713307
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Telia Norway",
+                "country": "Norway"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    10.7620342217207,
+                    59.954526768949
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "UnityMedia",
+                "country": "Germany"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    6.87940579791316,
+                    50.9379555989986
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Vidéotron LTD",
+                "country": "Canada"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -73.55845,
+                    45.516096
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Vodafone España, S.A.U.",
+                "country": "Spain"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -3.60231489634589,
+                    40.4507769673824
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Vodafone GmbH",
+                "country": "Germany"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    6.73205390087135,
+                    51.2351477900153
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "VodafoneZiggo",
+                "country": "Netherlands"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    5.10917662847943,
+                    52.0887421276953
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Vyve Broadband",
+                "country": "United States"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -82.3275029999999,
+                    31.201602
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "WASU Digital TV Media Group Co. Ltd.",
+                "country": "China"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    119.921236,
+                    28.449516
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Westman Communications Group",
+                "country": "Canada"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -99.963572,
+                    49.83573
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "WinDBreak Cable",
+                "country": "United States"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -103.660156,
+                    41.820198
+                ]
+            }
+        }
+    ]
+}

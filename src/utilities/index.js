@@ -72,6 +72,24 @@ function getPixel(imagedata, x, y) {
   };
 }
 
+function getRandomArrayElements(arr, count) {
+  let shuffled = arr.slice(0), i = arr.length, min = i - count, temp, index;
+  while (i-- > min) {
+      index = Math.floor((i + 1) * Math.random());
+      temp = shuffled[index];
+      shuffled[index] = shuffled[i];
+      shuffled[i] = temp;
+  }
+  console.log(shuffled.slice(min))
+  return shuffled.slice(min);
+}
+
+function genRandDecimal(min, max, decimalPlaces) {  
+  var rand = Math.random()*(max-min) + min;
+  var power = Math.pow(10, decimalPlaces);
+  return Math.floor(rand*power) / power;
+}
+
 export {
   latLongToVector3,
   cartesian2polar,
@@ -79,4 +97,6 @@ export {
   polar2cartesian,
   getImageData,
   getPixel,
+  getRandomArrayElements,
+  genRandDecimal,
 };

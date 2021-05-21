@@ -10,8 +10,10 @@ import {
   getImageData,
   getPixel,
   latLongToVector3,
+  getRandomArrayElements,
+  genRandDecimal,
 } from './src/utilities';
-import data from './src/data/locations.json';
+import data from './src/data/member_companies.json';
 
 function Earth(el) {
   let camera; let scene; let renderer; let w; let
@@ -125,7 +127,7 @@ function Earth(el) {
         );
 
         if (Object.values(pixelData).reduce((a, b) => a + b) <= 255 * 3) {
-          const dotGeometry = new THREE.CircleBufferGeometry(0.35, 5);
+          const dotGeometry = new THREE.CircleBufferGeometry(genRandDecimal(0.2, 0.5, 3), 5);
           dotGeometry.lookAt(vector);
 
           // Move the dot to the newly calculated position
@@ -142,11 +144,12 @@ function Earth(el) {
       const dots = new THREE.Mesh(globalGeometry, dotMaterial);
       scene.add(dots);
     }
-    const points = [];
-    for (let i = 0; i < data.length; i++) {
-      points.push(new AddPoint(data[i].lat, data[i].long, data[i].r, i));
 
-      const newLine = drawCurve(points[0].position, points[i].position);
+    const points = collectPoints(data);
+
+    for (let i = 0; i < points.length; i++) {
+      const randPoints = getRandomArrayElements(points, 2)
+      const newLine = drawCurve(randPoints[0].position, randPoints[1].position);
 
       new TWEEN.Tween(newLine)
         .to(
@@ -180,6 +183,16 @@ function Earth(el) {
     // DOM
 
     el.appendChild(renderer.domElement);
+  }
+
+  function collectPoints(data) {
+    const points = [];
+    for (let i = 0; i < data['features'].length; i++) {
+      const lng = data['features'][i]['geometry']['coordinates'][0];
+      const lat = data['features'][i]['geometry']['coordinates'][1];
+      points.push(new AddPoint(lat, lng, 1, i));
+    }
+    return points;
   }
 
   function AddPoint(lat, lng, r, i) {
