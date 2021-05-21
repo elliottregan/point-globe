@@ -91,13 +91,15 @@ function Earth(el) {
 
     function addDots(maskImageData) {
       // Create 60000 tiny dots and spiral them around the sphere.
-      const DOT_COUNT = 50000;
+      const DOT_COUNT = 40000;
 
       const vector = new THREE.Vector3();
       const positions = [];
       const dotMaterial = new THREE.MeshBasicMaterial({
         color: 0xffffff,
         side: THREE.DoubleSide,
+        opacity: 0.6,
+        transparent: true,
       });
       for (let i = DOT_COUNT; i >= 0; i--) {
         // A hexagon with a radius of 2 pixels looks like a circle
@@ -127,7 +129,7 @@ function Earth(el) {
         );
 
         if (Object.values(pixelData).reduce((a, b) => a + b) <= 255 * 3) {
-          const dotGeometry = new THREE.CircleBufferGeometry(genRandDecimal(0.4, 0.5, 3), 8);
+          const dotGeometry = new THREE.CircleBufferGeometry(.3, 8);
           dotGeometry.lookAt(vector);
 
           // Move the dot to the newly calculated position
