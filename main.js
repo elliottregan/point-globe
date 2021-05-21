@@ -127,7 +127,7 @@ function Earth(el) {
         );
 
         if (Object.values(pixelData).reduce((a, b) => a + b) <= 255 * 3) {
-          const dotGeometry = new THREE.CircleBufferGeometry(genRandDecimal(0.2, 0.5, 3), 5);
+          const dotGeometry = new THREE.CircleBufferGeometry(genRandDecimal(0.2, 0.3, 3), 5);
           dotGeometry.lookAt(vector);
 
           // Move the dot to the newly calculated position
