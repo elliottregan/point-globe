@@ -56,6 +56,9 @@ function Earth(el) {
     for (let i = 0; i < points[0].length; i++) {
       scene.add(points[0][i]);
       scene.add(points[1][i]);
+    }
+
+    for (let i = 0; i < points[0].length; i++) {
       const randPoints = getRandomArrayElements(points[0], 2);
       const newLine = drawCurve(randPoints[0].position, randPoints[1].position);
       scene.add(newLine);

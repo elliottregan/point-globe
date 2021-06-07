@@ -1,3 +1,4 @@
+/* eslint-disable no-use-before-define */
 import * as THREE from 'three';
 import { BufferGeometryUtils } from 'three/examples/jsm/utils/BufferGeometryUtils';
 import {
@@ -5,18 +6,19 @@ import {
   getPixel,
 } from '../utilities';
 
+const testUrl = '/public/images/checker-test.png';
+const cloudsUrl = '/public/images/noise.png';
+const cutoutUrl = '/public/images/earthspec1k.jpg';
+const textureLoader = new THREE.TextureLoader();
+
 export function drawDots(maskImageData) {
   // Create 60000 tiny dots and spiral them around the sphere.
   const DOT_COUNT = 40000;
 
+  const cloudsAlpha = textureLoader.load(cloudsUrl);
+
   const vector = new THREE.Vector3();
   const positions = [];
-  const dotMaterial = new THREE.MeshBasicMaterial({
-    color: 0xffffff,
-    side: THREE.DoubleSide,
-    opacity: 0.6,
-    transparent: true,
-  });
   for (let i = DOT_COUNT; i >= 0; i -= 1) {
     // A hexagon with a radius of 2 pixels looks like a circle
     const r = 150;
@@ -46,7 +48,7 @@ export function drawDots(maskImageData) {
 
     if (Object.values(pixelData).reduce((a, b) => a + b) <= 255 * 3) {
       const dotGeometry = new THREE.CircleBufferGeometry(0.3, 8);
-      dotGeometry.lookAt(new THREE.Vector3(0, 0, 0));
+      dotGeometry.lookAt(vector);
 
       // Move the dot to the newly calculated position
       dotGeometry.translate(vector.x, vector.y, vector.z);
@@ -59,8 +61,37 @@ export function drawDots(maskImageData) {
   const globalGeometry = BufferGeometryUtils.mergeBufferGeometries(
     positions,
   );
-  const dots = new THREE.Mesh(globalGeometry, dotMaterial);
-  return dots;
+
+  const dotMaterial = new THREE.MeshBasicMaterial({
+    color: 0xffffff,
+    side: THREE.DoubleSide,
+    // opacity: 0.6,
+    transparent: true,
+    // map: cloudsAlpha,
+    alphaMap: cloudsAlpha,
+  });
+
+  animate(dotMaterial, 1);
+
+  dotMaterial.alphaMap.magFilter = THREE.NearestFilter;
+  dotMaterial.alphaMap.wrapT = THREE.RepeatWrapping;
+  dotMaterial.alphaMap.repeat.y = 1;
+
+  return new THREE.Mesh(globalGeometry, dotMaterial);
+}
+
+function translateClouds(material, time) {
+  // eslint-disable-next-line no-param-reassign
+  material.alphaMap.offset.y = time * 0.0002;
+}
+
+function animate(material, time) {
+  translateClouds(material, time);
+  requestAnimationFrame(() => {
+    animate(material, time);
+  });
+  // eslint-disable-next-line no-param-reassign
+  time += 1;
 }
 
 export function drawCurve(a, b) {
