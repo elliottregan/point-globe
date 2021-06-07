@@ -116,7 +116,7 @@ function translateClouds(geometry) {
     // dynamically change alphas
     alphas.array[i] *= 0.99;
     if (alphas.array[i] < 0.05) {
-      alphas.array[i] = Math.random();
+      alphas.array[i] = Math.random() / 2;
     }
   }
   alphas.needsUpdate = true; // important!
