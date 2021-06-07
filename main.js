@@ -25,7 +25,7 @@ import {
 
 import data from './src/data/member_companies.json';
 
-const cutoutUrl = '/public/images/earthspec1k.jpg';
+const cutoutUrl = '/images/earthspec1k.jpg';
 
 function Earth(el) {
   let scene;

@@ -6,16 +6,9 @@ import {
   getPixel,
 } from '../utilities';
 
-const testUrl = '/public/images/checker-test.png';
-const cloudsUrl = '/public/images/noise.png';
-const cutoutUrl = '/public/images/earthspec1k.jpg';
-const textureLoader = new THREE.TextureLoader();
-
 export function drawDots(maskImageData) {
   // Create 60000 tiny dots and spiral them around the sphere.
   const DOT_COUNT = 40000;
-
-  const cloudsAlpha = textureLoader.load(cloudsUrl);
 
   const vector = new THREE.Vector3();
   const positions = [];
@@ -62,27 +55,71 @@ export function drawDots(maskImageData) {
     positions,
   );
 
-  const dotMaterial = new THREE.MeshBasicMaterial({
-    color: 0xffffff,
-    side: THREE.DoubleSide,
-    // opacity: 0.6,
+  const numVertices = globalGeometry.attributes.position.count;
+  const alphas = new Float32Array(numVertices * 1); // 1 values per vertex
+
+  for (let i = 0; i < numVertices; i += 1) {
+    // set alpha randomly
+    alphas[i] = Math.random() * 0.25;
+  }
+
+  globalGeometry.setAttribute('alpha', new THREE.BufferAttribute(alphas, 1));
+
+  const newDotMaterial = new THREE.ShaderMaterial({
+    // vertexColors: THREE.VertexColors,
+    uniforms: {
+      color: { value: new THREE.Color(0xffffff) },
+    },
+    vertexShader: `
+
+    attribute float alpha;
+
+    varying float vAlpha;
+
+    void main() {
+
+        vAlpha = alpha;
+
+        vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
+
+        gl_PointSize = 1.0;
+
+        gl_Position = projectionMatrix * mvPosition;
+
+    }
+
+    `,
+    fragmentShader: `
+    uniform vec3 color;
+
+    varying float vAlpha;
+
+    void main() {
+
+        gl_FragColor = vec4( color, vAlpha );
+
+    }
+    `,
     transparent: true,
-    // map: cloudsAlpha,
-    alphaMap: cloudsAlpha,
   });
 
-  animate(dotMaterial, 1);
+  animate(globalGeometry, 1);
 
-  dotMaterial.alphaMap.magFilter = THREE.NearestFilter;
-  dotMaterial.alphaMap.wrapT = THREE.RepeatWrapping;
-  dotMaterial.alphaMap.repeat.y = 1;
-
-  return new THREE.Mesh(globalGeometry, dotMaterial);
+  return new THREE.Points(globalGeometry, newDotMaterial);
 }
 
-function translateClouds(material, time) {
-  // eslint-disable-next-line no-param-reassign
-  material.alphaMap.offset.y = time * 0.0002;
+function translateClouds(geometry) {
+  const alphas = geometry.attributes.alpha;
+  const { count } = alphas;
+
+  for (let i = 0; i < count; i += 1) {
+    // dynamically change alphas
+    alphas.array[i] *= 0.99;
+    if (alphas.array[i] < 0.05) {
+      alphas.array[i] = Math.random();
+    }
+  }
+  alphas.needsUpdate = true; // important!
 }
 
 function animate(material, time) {
