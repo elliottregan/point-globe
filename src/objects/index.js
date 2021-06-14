@@ -172,7 +172,7 @@ export function drawCurve(a, b) {
 
   const lineMaterial = new THREE.LineBasicMaterial({
     color: new THREE.Color('#ff3600'),
-    linewidth: 8,
+    linewidth: 2,
     opacity: 0.75,
     transparent: true,
   });

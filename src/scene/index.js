@@ -74,8 +74,8 @@ function onMouseDown(event) {
 }
 
 function onMouseMove(event) {
-  mouse.x = -event.clientX;
-  mouse.y = event.clientY;
+  mouse.x = event.touches ? -event.touches[0].clientX : -event.clientX;
+  mouse.y = event.touches ? event.touches[0].clientY : event.clientY;
 
   target.x = targetOnDown.x + (mouse.x - mouseOnDown.x) * 0.005;
   target.y = targetOnDown.y + (mouse.y - mouseOnDown.y) * 0.005;
