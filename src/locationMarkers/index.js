@@ -70,16 +70,36 @@ export function drawRing(lat, lng, r, i) {
   return pointRing;
 }
 
+function drawHitbox(lat, lng, r, i) {
+  const position = latLongToVector3(lat, lng, GLOBE_RADIUS);
+  const hitboxGeometry = new THREE.SphereGeometry(r + 4.5, 8, 8);
+  const hitboxMaterial = new THREE.MeshBasicMaterial({
+    color: '#00ff00',
+    opacity: 0.15,
+    transparent: true,
+  });
+
+  const hitBox = new THREE.Mesh(hitboxGeometry, hitboxMaterial);
+
+  hitBox.position.set(position.x, position.y, position.z);
+  hitBox.name = `Location__${i}`;
+
+  return hitBox;
+}
+
 export function collectPoints(locationData) {
   const points = [];
   const rings = [];
+  const hitboxes = [];
   for (let i = 0; i < locationData.features.length; i += 1) {
     const lng = locationData.features[i].geometry.coordinates[0];
     const lat = locationData.features[i].geometry.coordinates[1];
     const locationMarker = drawPoint(lat, lng, 1, i);
     const markerRing = drawRing(lat, lng, 1, i);
+    const hitbox = drawHitbox(lat, lng, 1, i);
     points.push(locationMarker);
     rings.push(markerRing);
+    hitboxes.push(hitbox);
   }
-  return [points, rings];
+  return [points, rings, hitboxes];
 }

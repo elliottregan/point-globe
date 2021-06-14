@@ -56,6 +56,7 @@ function Earth(el) {
     for (let i = 0; i < points[0].length; i++) {
       scene.add(points[0][i]);
       scene.add(points[1][i]);
+      scene.add(points[2][i]);
     }
 
     for (let i = 0; i < 2; i++) {

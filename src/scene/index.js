@@ -5,6 +5,9 @@ import * as THREE from 'three';
 let canvas;
 const camDistance = 350;
 
+const raycaster = new THREE.Raycaster();
+const mouse2 = new THREE.Vector2();
+
 const PI_HALF = Math.PI / 2;
 const mouse = {
   x: 0,
@@ -56,7 +59,24 @@ export function render() {
   camera.position.z = camDistance * Math.cos(rotation.x) * Math.cos(rotation.y);
 
   camera.lookAt(new THREE.Vector3(0, 0, 0));
+
   renderer.render(scene, camera);
+}
+
+function onClick(event) {
+  mouse2.x = (event.clientX / window.innerWidth) * 2 - 1;
+  mouse2.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+  raycaster.setFromCamera(mouse2, camera);
+  // Find all intersectioned object, and filter by named objects only.
+  // The location markers are the only objects we care about.
+  const intersects = raycaster
+    .intersectObjects(scene.children)
+    .filter((intersect) => intersect.object.name);
+
+  if (intersects.length > 0) {
+    console.log(intersects);
+  }
 }
 
 function onMouseDown(event) {
@@ -116,6 +136,7 @@ export function createScene(el) {
 
   // Events
   canvas.addEventListener('mousedown', onMouseDown, false);
+  canvas.addEventListener('click', onClick, false);
   window.addEventListener('resize', onWindowResize, false);
 
   return thisScene;
