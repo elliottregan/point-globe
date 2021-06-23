@@ -74,8 +74,13 @@ function onClick(event) {
     .intersectObjects(scene.children)
     .filter((intersect) => intersect.object.name);
 
-  if (intersects.length > 0) {
-    console.log(intersects);
+  if (intersects[0]) {
+    const thisCard = document.getElementById(intersects[0].object.name);
+    console.log(thisCard);
+    document.querySelectorAll('.location').forEach((card) => card.classList.remove('visible'));
+    if (thisCard) {
+      thisCard.classList.add('visible');
+    }
   }
 }
 

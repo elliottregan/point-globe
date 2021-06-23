@@ -8,6 +8,24 @@
   </head>
   <body>
     <div id="container"></div>
+    <div class="locations">
+      <pug src="src/templates/locations.pug" />
+    </div>
     <script type="module" src="/main.js"></script>
+
+  <style>
+    .location {
+      background: #fff;
+      padding: 1em;
+      opacity: 0;
+      position: fixed;
+      top: 1em;
+      right: 1em;
+      transition: opacity ease 1s;
+    }
+    .location.visible {
+      opacity: 1;
+    }
+  </style>
   </body>
 </html>
