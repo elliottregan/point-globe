@@ -1,5 +1,7 @@
 - let i = 0
 .locations
   while i < 80
-    .location(id=`Location__${i}`) Location #{i}
+    .location(id=`Location__${i}`)
+      h1 Location #{i}
+      p This is some info about the location.
     - i++
