@@ -6,7 +6,7 @@ export const COLOR_1 = '#ef0018';
  *
  * @note If curve distance is too large for a given sphere, the curves will clip into the sphere
  */
-export const CURVE_MAX_DISTANCE = 225;
+export const CURVE_MAX_DISTANCE = 200;
 
 export const GLOBE_DOT_MIN_OPACITY = 0.125;
 export const GLOBE_DOT_RADIUS = 2.9;
