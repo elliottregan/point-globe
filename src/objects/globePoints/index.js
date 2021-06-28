@@ -44,9 +44,9 @@ export default function drawPoints(maskImageData) {
     );
 
     if (Object.values(pixelData).reduce((a, b) => a + b) <= 255 * 3) {
-      const dotGeometry = new THREE.CircleBufferGeometry(0.3, 8);
+      const dotGeometry = new THREE.BufferGeometry();
       dotGeometry.lookAt(vector);
-
+      dotGeometry.setAttribute('position', new THREE.Float32BufferAttribute(new THREE.Vector3().toArray(), 3));
       // Move the dot to the newly calculated position
       dotGeometry.translate(vector.x, vector.y, vector.z);
       dotGeometry.renderOrder = 1;
