@@ -6,7 +6,7 @@ export default function translateClouds(geometry) {
 
   for (let i = 0; i < count; i += 1) {
     // dynamically change alphas
-    alphas.array[i] *= 0.99;
+    alphas.array[i] -= 0.01;
     if (alphas.array[i] < GLOBE_MIN_DOT_OPACITY) {
       alphas.array[i] = Math.random() / 2;
     }
