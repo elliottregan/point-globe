@@ -76,7 +76,6 @@ function onClick(event) {
 
   if (intersects[0]) {
     const thisCard = document.getElementById(intersects[0].object.name);
-    console.log(thisCard);
     document.querySelectorAll('.location').forEach((card) => card.classList.remove('visible'));
     if (thisCard) {
       thisCard.classList.add('visible');
