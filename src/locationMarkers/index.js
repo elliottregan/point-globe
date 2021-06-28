@@ -72,7 +72,7 @@ export function drawRing(lat, lng, r, i) {
 
 function drawHitbox(lat, lng, r, i) {
   const position = latLongToVector3(lat, lng, GLOBE_RADIUS);
-  const hitboxGeometry = new THREE.SphereGeometry(r + 4.5, 8, 8);
+  const hitboxGeometry = new THREE.SphereGeometry(r + 5, 16, 8);
   const hitboxMaterial = new THREE.MeshBasicMaterial({
     color: '#00ff00',
     opacity: 0.15,
