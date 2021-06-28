@@ -3,6 +3,8 @@ export const TOTAL_ARCS = 20;
 
 export const COLOR_1 = '#ef0018';
 
+export const CURVE_MAX_DISTANCE = 225;
+
 export function onLocationClick(event, { locationMarker }) {
   const thisCard = document.getElementById(locationMarker.object.name);
 
