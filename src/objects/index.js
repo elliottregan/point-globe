@@ -114,12 +114,11 @@ function translateClouds(geometry) {
 
   for (let i = 0; i < count; i += 1) {
     // dynamically change alphas
-    alphas.array[i] -= 0.002;
+    alphas.array[i] *= 0.99;
     if (alphas.array[i] < 0.05) {
-      alphas.array[i] = Math.random() * 0.7;
+      alphas.array[i] = Math.random() / 2;
     }
   }
-
   alphas.needsUpdate = true; // important!
 }
 
