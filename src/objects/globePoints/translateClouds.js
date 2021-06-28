@@ -9,5 +9,5 @@ export default function translateClouds(geometry) {
       alphas.array[i] = Math.random() / 2;
     }
   }
-  alphas.needsUpdate = true; // important!
+  alphas.needsUpdate = true; // important for shader updates!
 }

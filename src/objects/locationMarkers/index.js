@@ -1,5 +1,6 @@
 import * as THREE from 'three';
-import * as TWEEN from 'tween.js';
+// import * as TWEEN from 'tween.js';
+import { COLOR_1 } from '../../constants';
 
 import {
   latLongToVector3,
@@ -12,7 +13,7 @@ function drawPoint(lat, lng, r) {
 
   const pointGeometry = new THREE.SphereGeometry(r, 32, 32);
   const pointMaterial = new THREE.MeshBasicMaterial({
-    color: '#ef0018',
+    color: COLOR_1,
     opacity: 1,
   });
 
@@ -23,33 +24,31 @@ function drawPoint(lat, lng, r) {
   return point;
 }
 
-function drawRing(lat, lng, r, i) {
+function drawRing(lat, lng, r) {
   const position = latLongToVector3(lat, lng, GLOBE_RADIUS);
-  const pointRingGeometry = new THREE.RingGeometry(r + 0.5, r + 1.5, 32);
+  const pointRingGeometry = new THREE.RingGeometry(r + 2.8, r + 3, 16);
   const pointRingMaterial = new THREE.MeshBasicMaterial({
-    color: '#ef0018',
-    opacity: 0.5,
+    color: COLOR_1,
     side: THREE.DoubleSide,
-    transparent: true,
   });
 
   const pointRing = new THREE.Mesh(pointRingGeometry, pointRingMaterial);
   pointRing.position.set(position.x, position.y, position.z);
-  pointRing.scale.set(0.01, 0.01, 0.01);
+  // pointRing.scale.set(0.01, 0.01, 0.01);
   pointRing.lookAt(new THREE.Vector3(0, 0, 0));
 
-  new TWEEN.Tween(pointRing.scale)
-    .to(
-      {
-        x: 1,
-        y: 1,
-        z: 1,
-      },
-      1500,
-    )
-    .delay(i * 350 + 1500)
-    .easing(TWEEN.Easing.Cubic.Out)
-    .start();
+  // new TWEEN.Tween(pointRing.scale)
+  //   .to(
+  //     {
+  //       x: 1,
+  //       y: 1,
+  //       z: 1,
+  //     },
+  //     1500,
+  //   )
+  //   .delay(i * 350 + 1500)
+  //   .easing(TWEEN.Easing.Cubic.Out)
+  //   .start();
 
   return pointRing;
 }
@@ -59,7 +58,7 @@ function drawHitbox(lat, lng, r, i) {
   const hitboxGeometry = new THREE.SphereGeometry(r + 4.5, 8, 8);
   const hitboxMaterial = new THREE.MeshBasicMaterial({
     color: '#00ff00',
-    opacity: 0.15,
+    opacity: 0,
     transparent: true,
   });
 

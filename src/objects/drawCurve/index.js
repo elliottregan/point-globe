@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { COLOR_1 } from '../../constants';
 
 export default function drawCurve(a, b) {
   const distance = a.clone().sub(b).length();
@@ -40,7 +41,7 @@ export default function drawCurve(a, b) {
   lineGeometry.setDrawRange(0, 0);
 
   const lineMaterial = new THREE.LineBasicMaterial({
-    color: new THREE.Color('#ff3600'),
+    color: new THREE.Color(COLOR_1),
     linewidth: 2,
     opacity: 0.75,
     transparent: true,
