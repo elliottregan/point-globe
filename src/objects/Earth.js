@@ -83,7 +83,9 @@ export class Earth {
         // eslint-disable-next-line no-loop-func
         .onComplete(() => {
           scene.remove(newLine);
-          drawArc(newLine);
+          setTimeout(() => {
+            drawArc(newLine);
+          }, Math.random() * 1000);
         });
 
       drawCurveIn
