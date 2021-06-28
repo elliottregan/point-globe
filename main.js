@@ -27,72 +27,73 @@ import data from './src/data/member_companies.json';
 
 const cutoutUrl = '/images/earthspec1k.jpg';
 
-function Earth(el) {
-  let scene;
-  let w;
-  let h;
+class Earth {
+  constructor(el) {
+    let scene;
+    let w;
+    let h;
 
-  // -------------------------------------
-  //   Init
-  // -------------------------------------
+    // -------------------------------------
+    //   Init
+    // -------------------------------------
+    function init() {
+      w = window.innerWidth;
+      h = window.innerHeight;
 
-  function init() {
-    w = window.innerWidth;
-    h = window.innerHeight;
+      const earth = drawEarth();
+      scene = createScene(el);
+      scene.add(earth);
 
-    const earth = drawEarth();
-    scene = createScene(el);
-    scene.add(earth);
+      const textureLoader = new THREE.TextureLoader();
+      const earthCutout = textureLoader.load(cutoutUrl, () => {
+        const imageData = getImageData(earthCutout.image);
+        const dots = drawDots(imageData);
+        scene.add(dots);
+      });
 
-    const textureLoader = new THREE.TextureLoader();
-    const earthCutout = textureLoader.load(cutoutUrl, () => {
-      const imageData = getImageData(earthCutout.image);
-      const dots = drawDots(imageData);
-      scene.add(dots);
-    });
+      const points = collectPoints(data);
 
-    const points = collectPoints(data);
+      for (let i = 0; i < points[0].length; i++) {
+        scene.add(points[0][i]);
+        scene.add(points[1][i]);
+        scene.add(points[2][i]);
+      }
 
-    for (let i = 0; i < points[0].length; i++) {
-      scene.add(points[0][i]);
-      scene.add(points[1][i]);
-      scene.add(points[2][i]);
+      for (let i = 0; i < 2; i++) {
+        const randPoints = getRandomArrayElements(points[0], 2);
+        const newLine = drawCurve(randPoints[0].position, randPoints[1].position);
+        scene.add(newLine);
+
+        const drawCurveIn = new TWEEN.Tween(newLine)
+          .to(
+            {
+              currentPoint: 200,
+            },
+            2000,
+          )
+          .delay(i * 350 + 1500)
+          .easing(TWEEN.Easing.Cubic.Out)
+          .onUpdate(() => {
+            newLine.geometry.setDrawRange(0, newLine.currentPoint);
+          });
+
+        drawCurveIn
+          .start();
+      }
     }
 
-    for (let i = 0; i < 2; i++) {
-      const randPoints = getRandomArrayElements(points[0], 2);
-      const newLine = drawCurve(randPoints[0].position, randPoints[1].position);
-      scene.add(newLine);
-
-      const drawCurveIn = new TWEEN.Tween(newLine)
-        .to(
-          {
-            currentPoint: 200,
-          },
-          2000,
-        )
-        .delay(i * 350 + 1500)
-        .easing(TWEEN.Easing.Cubic.Out)
-        .onUpdate(() => {
-          newLine.geometry.setDrawRange(0, newLine.currentPoint);
-        });
-
-      drawCurveIn
-        .start();
+    function animate(time) {
+      render();
+      TWEEN.update(time);
+      requestAnimationFrame(animate);
     }
+
+    init();
+    animate();
+
+    this.animate = animate;
+    return this;
   }
-
-  function animate(time) {
-    render();
-    TWEEN.update(time);
-    requestAnimationFrame(animate);
-  }
-
-  init();
-  animate();
-
-  this.animate = animate;
-  return this;
 }
 
 const container = document.getElementById('container');
