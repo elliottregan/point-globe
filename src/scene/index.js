@@ -1,6 +1,7 @@
 /* eslint-disable no-use-before-define */
 /* eslint-disable import/prefer-default-export */
 import * as THREE from 'three';
+import { onLocationClick } from '../constants';
 
 let canvas;
 const camDistance = 350;
@@ -75,12 +76,9 @@ function onClick(event) {
     .filter((intersect) => intersect.object.name);
 
   if (intersects[0]) {
-    const thisCard = document.getElementById(intersects[0].object.name);
-    console.log(thisCard);
-    document.querySelectorAll('.location').forEach((card) => card.classList.remove('visible'));
-    if (thisCard) {
-      thisCard.classList.add('visible');
-    }
+    onLocationClick(event, {
+      locationMarker: intersects[0],
+    });
   }
 }
 
@@ -130,7 +128,7 @@ export function createScene(el) {
   canvas = el;
   createRenderer();
   const thisScene = new THREE.Scene();
-  const light = new THREE.PointLight('#fafafa', 0.35);
+  const light = new THREE.PointLight('#aaa', 0.35);
 
   thisScene.add(camera);
   camera.add(light);
