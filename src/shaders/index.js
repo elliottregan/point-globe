@@ -1,3 +1,5 @@
+import { GLOBE_DOT_RADIUS } from '../constants';
+
 export const vertexShader = `
   attribute float alpha;
   varying float vAlpha;
@@ -6,7 +8,7 @@ export const vertexShader = `
       vAlpha = alpha;
       vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
 
-      gl_PointSize = 2.5;
+      gl_PointSize = ${GLOBE_DOT_RADIUS};
       gl_Position = projectionMatrix * mvPosition;
   }
 `;
