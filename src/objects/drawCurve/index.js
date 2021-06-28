@@ -29,7 +29,7 @@ export default function drawCurve(a, b) {
 
   const lineGeometry = new THREE.BufferGeometry();
   const positions = new Float32Array(points.length * 3);
-  for (let i = 0; i < points.length; i += 1) {
+  for (let i = 0; i < points.length; i++) {
     positions[i * 3 + 0] = points[i].x;
     positions[i * 3 + 1] = points[i].y;
     positions[i * 3 + 2] = points[i].z;
