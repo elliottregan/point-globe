@@ -8,7 +8,4 @@ import { Earth } from './src/objects/Earth';
 const container = document.getElementById('container');
 const planet = new Earth(container, {
   mapUrl: '/images/earthspec1k.jpg',
-  onLocationMarkerClick() {
-    console.log('hello!');
-  },
 });
