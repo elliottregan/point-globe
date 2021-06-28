@@ -5,7 +5,7 @@ export default function translateClouds(geometry) {
   for (let i = 0; i < count; i += 1) {
     // dynamically change alphas
     alphas.array[i] -= 0.01;
-    if (alphas.array[i] < 0.25) {
+    if (alphas.array[i] < 0.125) {
       alphas.array[i] = Math.random() / 2;
     }
   }
