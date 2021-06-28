@@ -3,6 +3,7 @@ export const TOTAL_ARCS = 20;
 
 export const COLOR_1 = '#ef0018';
 
+// If curve distance is too large for a given sphere geometry, the curves will clip into the sphere
 export const CURVE_MAX_DISTANCE = 225;
 
 export function onLocationClick(event, { locationMarker }) {
