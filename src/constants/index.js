@@ -1,5 +1,4 @@
 /* eslint-disable import/prefer-default-export */
-export const COLOR_1 = '#ef0018';
 
 /**
  * Arc Point Distance at which Arc Length should begin increasing linearly to account for Arcs with
@@ -27,9 +26,9 @@ export const ARC_LENGTH_OFFSET = 10;
  */
 export const ARC_MAX_DISTANCE = 300;
 
+export const COLOR_1 = '#ef0018';
 export const GLOBE_DOT_MIN_OPACITY = 0.125;
 export const GLOBE_DOT_RADIUS = 2.9;
-
 export const TOTAL_ARCS = 20;
 
 export function onLocationClick(event, { locationMarker }) {
