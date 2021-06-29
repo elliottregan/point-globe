@@ -21,7 +21,7 @@ export const ARC_DISTANCE_OFFSET = 225;
 export const ARC_LENGTH_OFFSET = 10;
 
 /**
- * Maximum Distance Allowed between Two Globe Points in order to Draw an Arc
+ * Maximum Distance Allowed between Two Arc Points in order to draw an Arc
  *
  * @note This will prevent Arcs from being drawn between points with distance > ARC_MAX_DISTANCE
  */
