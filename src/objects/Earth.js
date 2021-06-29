@@ -1,7 +1,7 @@
 /* eslint-disable no-use-before-define */
 import * as THREE from 'three';
 import * as TWEEN from 'tween.js';
-import { CURVE_MAX_DISTANCE, TOTAL_ARCS } from '../constants';
+import { ARC_MAX_DISTANCE, TOTAL_ARCS } from '../constants';
 import drawCurve from './drawCurve';
 import drawPoints from './globePoints';
 import {
@@ -49,12 +49,9 @@ export class Earth {
         const a = randPoints[0].position;
         const b = randPoints[1].position;
         const distance = a.clone().sub(b).length();
-        if (distance > CURVE_MAX_DISTANCE) {
-          continue;
+        if (distance <= ARC_MAX_DISTANCE) {
+          drawArc(drawCurve(a, b), i);
         }
-
-        const newLine = drawCurve(a, b);
-        drawArc(newLine, i);
       }
     }
 
