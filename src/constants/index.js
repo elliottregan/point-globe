@@ -2,13 +2,6 @@
 export const COLOR_1 = '#ef0018';
 
 /**
- * Maximum Distance Allowed between Two Globe Points in order to Draw an Arc
- *
- * @note This will prevent Arcs from being drawn between points with distance > ARC_MAX_DISTANCE
- */
-export const ARC_MAX_DISTANCE = 300;
-
-/**
  * Arc Point Distance at which Arc Length should begin increasing linearly to account for Arcs with
  * exceptionally large distance (ex: across globe, 180 degrees).
  *
@@ -26,6 +19,13 @@ export const ARC_DISTANCE_OFFSET = 225;
  * without changing the distance between the two points.
  */
 export const ARC_LENGTH_OFFSET = 10;
+
+/**
+ * Maximum Distance Allowed between Two Globe Points in order to Draw an Arc
+ *
+ * @note This will prevent Arcs from being drawn between points with distance > ARC_MAX_DISTANCE
+ */
+export const ARC_MAX_DISTANCE = 300;
 
 export const GLOBE_DOT_MIN_OPACITY = 0.125;
 export const GLOBE_DOT_RADIUS = 2.9;
