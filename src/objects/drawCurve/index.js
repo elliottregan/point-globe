@@ -1,23 +1,24 @@
 import * as THREE from 'three';
-import { COLOR_1 } from '../../constants';
+import { ARC_DISTANCE_OFFSET, ARC_LENGTH_OFFSET, COLOR_1 } from '../../constants';
 
 export default function drawCurve(a, b) {
   const distance = a.clone().sub(b).length();
+  let distanceOffset = distance - ARC_DISTANCE_OFFSET;
+  if (distanceOffset < 0) {
+    distanceOffset = 0;
+  }
 
   const mid = a.clone().lerp(b, 0.5);
-  const midLength = mid.length();
+  const midOffset = ARC_LENGTH_OFFSET + (distanceOffset * 2);
+  const midLength = mid.length() + midOffset;
   mid.normalize();
   mid.multiplyScalar(midLength + distance * 0.25);
 
   const normal = new THREE.Vector3().subVectors(a, b);
   normal.normalize();
 
-  const midStart = mid
-    .clone()
-    .add(normal.clone().multiplyScalar(distance * 0.25));
-  const midEnd = mid
-    .clone()
-    .add(normal.clone().multiplyScalar(distance * -0.25));
+  const midStart = mid.clone().add(normal.clone().multiplyScalar(distance * 0.25));
+  const midEnd = mid.clone().add(normal.clone().multiplyScalar(distance * -0.25));
 
   const splineCurveA = new THREE.CubicBezierCurve3(a, a, midStart, mid);
   const splineCurveB = new THREE.CubicBezierCurve3(mid, midEnd, b, b);
@@ -29,7 +30,7 @@ export default function drawCurve(a, b) {
 
   const lineGeometry = new THREE.BufferGeometry();
   const positions = new Float32Array(points.length * 3);
-  for (let i = 0; i < points.length; i++) {
+  for (let i = 0; i < points.length; i += 1) {
     positions[i * 3 + 0] = points[i].x;
     positions[i * 3 + 1] = points[i].y;
     positions[i * 3 + 2] = points[i].z;
