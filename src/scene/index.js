@@ -65,8 +65,9 @@ export function render() {
 }
 
 function onClick(event) {
-  mouse2.x = (event.clientX / window.innerWidth) * 2 - 1;
-  mouse2.y = -(event.clientY / window.innerHeight) * 2 + 1;
+  const rect = renderer.domElement.getBoundingClientRect();
+  mouse2.x = ((event.clientX - rect.left) / (rect.right - rect.left)) * 2 - 1;
+  mouse2.y = -((event.clientY - rect.top) / (rect.bottom - rect.top)) * 2 + 1;
 
   raycaster.setFromCamera(mouse2, camera);
   // Find all intersectioned object, and filter by named objects only.
