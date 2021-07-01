@@ -1,8 +1,8 @@
 import * as THREE from 'three';
 // import * as TWEEN from 'tween.js';
-import { COLOR_1 } from '../../constants';
-
+import { BRAND_COLORS, COLOR_1 } from '../../constants';
 import {
+  getRandomArrayElements,
   latLongToVector3,
 } from '../../utilities';
 
@@ -10,10 +10,11 @@ const GLOBE_RADIUS = 150;
 
 function drawPoint(lat, lng, r) {
   const position = latLongToVector3(lat, lng, GLOBE_RADIUS);
-
+  const color = getRandomArrayElements(BRAND_COLORS)[0];
+  console.log(color);
   const pointGeometry = new THREE.SphereGeometry(r, 32, 32);
   const pointMaterial = new THREE.MeshBasicMaterial({
-    color: COLOR_1,
+    color,
     opacity: 1,
   });
 

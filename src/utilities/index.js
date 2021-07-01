@@ -72,7 +72,7 @@ function getPixel(imagedata, x, y) {
   };
 }
 
-function getRandomArrayElements(arr, count) {
+function getRandomArrayElements(arr, count = 1) {
   const shuffled = arr.slice(0); let i = arr.length; const min = i - count; let temp; let
     index;
   // eslint-disable-next-line no-plusplus
