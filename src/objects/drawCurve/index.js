@@ -1,5 +1,11 @@
 import * as THREE from 'three';
-import { ARC_DISTANCE_OFFSET, ARC_LENGTH_OFFSET, COLOR_1 } from '../../constants';
+import { rgbToHsl } from '../../utilities';
+import {
+  ARC_COLOR_BEGIN,
+  ARC_COLOR_END,
+  ARC_DISTANCE_OFFSET,
+  ARC_LENGTH_OFFSET,
+} from '../../constants';
 
 export default function drawCurve(a, b) {
   const distance = a.clone().sub(b).length();
@@ -28,29 +34,40 @@ export default function drawCurve(a, b) {
   points = points.concat(splineCurveB.getPoints(100));
   points.push(new THREE.Vector3(0, 0, 0));
 
-  const lineGeometry = new THREE.BufferGeometry();
+  const color = new THREE.Color();
+  const colorBegin = ARC_COLOR_BEGIN;
+  const colorEnd = ARC_COLOR_END;
+  const colorDiffR = -(colorBegin[0] - colorEnd[0]);
+  const colorDiffG = -(colorBegin[1] - colorEnd[1]);
+  const colorDiffB = -(colorBegin[2] - colorEnd[2]);
+  const colors = [];
+  const pointCount = points.length;
   const positions = new Float32Array(points.length * 3);
+  const vertices = [];
   for (let i = 0; i < points.length; i += 1) {
-    positions[i * 3 + 0] = points[i].x;
+    const point = points[i];
+    const ratio = i / Number(pointCount);
+    const deltaB = colorDiffB * ratio;
+    const deltaG = colorDiffG * ratio;
+    const deltaR = colorDiffR * ratio;
+    const hsl = rgbToHsl(colorBegin[0] + deltaR, colorBegin[1] + deltaG, colorBegin[2] + deltaB);
+    color.setHSL(hsl[0], 1.0, 0.5);
+    colors.push(color.r, color.g, color.b);
+    positions[i * 3] = point.x;
     positions[i * 3 + 1] = points[i].y;
     positions[i * 3 + 2] = points[i].z;
+    vertices.push(point.x, point.y, point.z);
   }
 
-  lineGeometry.setAttribute(
-    'position',
-    new THREE.BufferAttribute(positions, 3),
-  );
+  const geometry = new THREE.BufferGeometry();
+  geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
+  geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+  geometry.setDrawRange(0, 0);
 
-  lineGeometry.setDrawRange(0, 0);
+  const material = new THREE.LineBasicMaterial({ vertexColors: true });
+  material.transparent = true;
 
-  const lineMaterial = new THREE.LineBasicMaterial({
-    color: new THREE.Color(COLOR_1),
-    linewidth: 2,
-    opacity: 0.75,
-    transparent: true,
-  });
-
-  const line = new THREE.Line(lineGeometry, lineMaterial);
+  const line = new THREE.Line(geometry, material);
   line.currentPoint = 0;
   return line;
 }
