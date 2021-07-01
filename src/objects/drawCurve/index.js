@@ -47,9 +47,9 @@ export default function drawCurve(a, b) {
   for (let i = 0; i < points.length; i += 1) {
     const point = points[i];
     const ratio = i / Number(pointCount);
-    const deltaB = colorDiffB * ratio;
-    const deltaG = colorDiffG * ratio;
     const deltaR = colorDiffR * ratio;
+    const deltaG = colorDiffG * ratio;
+    const deltaB = colorDiffB * ratio;
     const hsl = rgbToHsl(colorBegin[0] + deltaR, colorBegin[1] + deltaG, colorBegin[2] + deltaB);
     color.setHSL(hsl[0], 1.0, 0.5);
     colors.push(color.r, color.g, color.b);
