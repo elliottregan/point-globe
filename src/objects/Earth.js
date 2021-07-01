@@ -7,6 +7,7 @@ import drawPoints from './globePoints';
 import {
   getImageData,
   getRandomArrayElements,
+  genRandDecimal,
 } from '../utilities';
 import collectPoints from './locationMarkers';
 import { drawEarth } from './sphere';
@@ -50,12 +51,12 @@ export class Earth {
         const b = randPoints[1].position;
         const distance = a.clone().sub(b).length();
         if (distance <= ARC_MAX_DISTANCE) {
-          drawArc(drawCurve(a, b), i);
+          drawArc(drawCurve(a, b));
         }
       }
     }
 
-    function drawArc(newLine, i = 0) {
+    function drawArc(newLine) {
       scene.add(newLine);
 
       const drawCurveIn = new TWEEN.Tween(newLine)
@@ -65,7 +66,7 @@ export class Earth {
           },
           2000,
         )
-        .delay(i * 350 + 1500)
+        .delay(genRandDecimal(100, 5000))
         .easing(TWEEN.Easing.Cubic.Out)
         .onUpdate(() => {
           newLine.geometry.setDrawRange(0, newLine.currentPoint);
@@ -78,7 +79,6 @@ export class Earth {
           },
           2000,
         )
-        .delay(i * 350 + 1500)
         .easing(TWEEN.Easing.Cubic.Out)
         .onUpdate(() => {
           newLine.geometry.setDrawRange(0, newLine.currentPoint);
@@ -88,7 +88,7 @@ export class Earth {
           scene.remove(newLine);
           setTimeout(() => {
             drawArc(newLine);
-          }, Math.random() * 1000);
+          }, genRandDecimal(0, 2500));
         });
 
       drawCurveIn

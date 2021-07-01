@@ -70,7 +70,6 @@ export default function drawPoints(maskImageData) {
   globalGeometry.setAttribute('alpha', new THREE.BufferAttribute(alphas, 1));
 
   const newDotMaterial = new THREE.ShaderMaterial({
-    // vertexColors: THREE.VertexColors,
     uniforms: {
       color: { value: new THREE.Color(0xffffff) },
     },

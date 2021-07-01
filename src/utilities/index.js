@@ -85,7 +85,7 @@ function getRandomArrayElements(arr, count = 1) {
   return shuffled.slice(min);
 }
 
-function genRandDecimal(min, max, decimalPlaces) {
+function genRandDecimal(min, max, decimalPlaces = 1) {
   const rand = Math.random() * (max - min) + min;
   const power = decimalPlaces ** 10;
   return Math.floor(rand * power) / power;
