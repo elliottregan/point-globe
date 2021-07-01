@@ -2,6 +2,7 @@
 /* eslint-disable import/prefer-default-export */
 import * as THREE from 'three';
 import { onLocationClick } from '../constants';
+import { clearHighlightedPoint, highlightPoint } from './highlightPoint';
 
 let canvas;
 const camDistance = 350;
@@ -29,10 +30,6 @@ const target = {
 const targetOnDown = {
   x: 0,
   y: 0,
-};
-
-const state = {
-  highlightedPoint: null,
 };
 
 const w = window.innerWidth;
@@ -81,24 +78,13 @@ function onClick(event) {
     .filter((intersect) => intersect.object.parent?.name);
 
   if (intersects.length > 0) {
+    const locationMarker = intersects[0].object.parent.children.find((obj) => obj?.name);
     clearHighlightedPoint();
-    highlightPoint(intersects[0].object.parent.children.find((obj) => obj?.name));
+    highlightPoint(locationMarker);
     onLocationClick(event, {
       locationId: intersects[0].object.parent.name,
-      locationMarker: state.highlightedPoint,
+      locationMarker,
     });
-  }
-}
-
-function highlightPoint(pointObject) {
-  state.highlightedPoint = pointObject;
-  state.highlightedPoint.scale.set(4, 4, 4);
-}
-
-function clearHighlightedPoint() {
-  if (state.highlightedPoint) {
-    state.highlightedPoint.scale.set(1, 1, 1);
-    state.highlightedPoint = null;
   }
 }
 
