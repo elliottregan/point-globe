@@ -1,0 +1,99 @@
+/* eslint-disable no-use-before-define */
+import * as THREE from 'three';
+import * as TWEEN from 'tween.js';
+import { ARC_MAX_DISTANCE, TOTAL_ARCS } from '../../constants';
+import drawCurve from '../drawCurve';
+import drawPoints from '../globePoints';
+import {
+  getImageData,
+  getRandomArrayElements,
+  genRandDecimal,
+} from '../../utilities';
+import {
+  drawCurveIn,
+  drawCurveOut,
+} from './tweens';
+import collectPoints from '../locationMarkers';
+import { drawEarth } from '../sphere';
+import {
+  createScene,
+  render,
+} from '../../scene';
+import data from '../../data/member_companies.json';
+
+// eslint-disable-next-line import/prefer-default-export
+export class Earth {
+  constructor(el, { mapUrl }) {
+    let scene;
+
+    // -------------------------------------
+    //   Init
+    // -------------------------------------
+    function init() {
+      const earth = drawEarth();
+      scene = createScene(el);
+      scene.add(earth);
+
+      const textureLoader = new THREE.TextureLoader();
+      const earthCutout = textureLoader.load(mapUrl, () => {
+        const imageData = getImageData(earthCutout.image);
+        const points = drawPoints(imageData);
+        scene.add(points);
+      });
+
+      const points = collectPoints(data);
+
+      for (let i = 0; i < points[0].length; i += 1) {
+        const locationPointGroup = new THREE.Group();
+        locationPointGroup.name = `Location__${i}`;
+        locationPointGroup.add(points[0][i]);
+        locationPointGroup.add(points[2][i]);
+        // locationPointGroup.add(points[1][i]); // ring
+        scene.add(locationPointGroup); // hitbox
+      }
+
+      for (let i = 0; i < TOTAL_ARCS; i += 1) {
+        drawArc(drawCurve(...getRandomPointPositions()));
+      }
+    }
+
+    function getRandomPointPositions() {
+      const points = collectPoints(data);
+      const randPoints = getRandomArrayElements(points[0], 2);
+      const a = randPoints[0].position;
+      const b = randPoints[1].position;
+      const distance = a.clone().sub(b).length();
+
+      if (distance > ARC_MAX_DISTANCE) {
+        return getRandomPointPositions();
+      }
+      return [a, b];
+    }
+
+    function drawArc(newLine) {
+      scene.add(newLine);
+
+      /*
+        Draw the curve, draw it out, remove it from the scene,
+      */
+      drawCurveIn(newLine)
+        .chain(drawCurveOut(newLine)
+          .onComplete(() => {
+            scene.remove(newLine);
+            setTimeout(() => {
+              drawArc(drawCurve(...getRandomPointPositions()));
+            }, genRandDecimal(0, 2500));
+          }))
+        .start();
+    }
+
+    function animate(time) {
+      render();
+      TWEEN.update(time);
+      requestAnimationFrame(animate);
+    }
+
+    init();
+    animate();
+  }
+}
