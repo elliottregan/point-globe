@@ -40,9 +40,14 @@ export class Earth {
       const points = collectPoints(data);
 
       for (let i = 0; i < points[0].length; i += 1) {
-        scene.add(points[0][i]); // point
+        const locationPointGroup = new THREE.Group();
+        locationPointGroup.add(points[0][i]);
+        locationPointGroup.add(points[2][i]);
+        locationPointGroup.name = `Location__${i}`;
+
+        // scene.add(points[0][i]); // point
         // scene.add(points[1][i]); // ring
-        scene.add(points[2][i]); // hitbox
+        scene.add(locationPointGroup); // hitbox
       }
 
       for (let i = 0; i < TOTAL_ARCS; i += 1) {

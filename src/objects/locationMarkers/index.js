@@ -8,7 +8,7 @@ import {
 
 const GLOBE_RADIUS = 150;
 
-function drawPoint(lat, lng, r) {
+function drawPoint(lat, lng, r, i) {
   const position = latLongToVector3(lat, lng, GLOBE_RADIUS);
   const color = getRandomArrayElements(BRAND_COLORS)[0];
   const pointGeometry = new THREE.SphereGeometry(r, 32, 32);
@@ -19,12 +19,13 @@ function drawPoint(lat, lng, r) {
 
   const point = new THREE.Mesh(pointGeometry, pointMaterial);
   point.position.set(position.x, position.y, position.z);
+  point.name = `point__Location__${i}`;
   point.lookAt(new THREE.Vector3(0, 0, 0));
 
   return point;
 }
 
-function drawRing(lat, lng, r) {
+function drawRing(lat, lng, r, i) {
   const position = latLongToVector3(lat, lng, GLOBE_RADIUS);
   const pointRingGeometry = new THREE.RingGeometry(r + 2.8, r + 3, 16);
   const pointRingMaterial = new THREE.MeshBasicMaterial({
@@ -36,6 +37,7 @@ function drawRing(lat, lng, r) {
   pointRing.position.set(position.x, position.y, position.z);
   // pointRing.scale.set(0.01, 0.01, 0.01);
   pointRing.lookAt(new THREE.Vector3(0, 0, 0));
+  pointRing.name = `pointRing__Location__${i}`;
 
   // new TWEEN.Tween(pointRing.scale)
   //   .to(
@@ -65,7 +67,7 @@ function drawHitbox(lat, lng, r, i) {
   const hitBox = new THREE.Mesh(hitboxGeometry, hitboxMaterial);
 
   hitBox.position.set(position.x, position.y, position.z);
-  hitBox.name = `Location__${i}`;
+  hitBox.name = `hitbox__Location__${i}`;
 
   return hitBox;
 }

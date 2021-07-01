@@ -33,8 +33,8 @@ export const GLOBE_DOT_MIN_OPACITY = 0.125;
 export const GLOBE_DOT_RADIUS = 2.9;
 export const TOTAL_ARCS = 20;
 
-export function onLocationClick(event, { locationMarker }) {
-  const thisCard = document.getElementById(locationMarker.object.name);
+export function onLocationClick(event, { locationId }) {
+  const thisCard = document.getElementById(locationId);
 
   document.querySelectorAll('.location').forEach((card) => card.classList.remove('visible'));
   if (thisCard) {

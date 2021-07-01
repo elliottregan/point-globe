@@ -31,6 +31,10 @@ const targetOnDown = {
   y: 0,
 };
 
+const state = {
+  highlightedPoint: null,
+};
+
 const w = window.innerWidth;
 const h = window.innerHeight;
 const camera = new THREE.PerspectiveCamera(camDistance / 5, w / h, 1, camDistance * 2);
@@ -70,16 +74,31 @@ function onClick(event) {
   mouse2.y = -((event.clientY - rect.top) / (rect.bottom - rect.top)) * 2 + 1;
 
   raycaster.setFromCamera(mouse2, camera);
-  // Find all intersectioned object, and filter by named objects only.
+  // Find all intersected objects, and filter by those in a named group only.
   // The location markers are the only objects we care about.
   const intersects = raycaster
-    .intersectObjects(scene.children)
-    .filter((intersect) => intersect.object.name);
+    .intersectObjects(scene.children, true)
+    .filter((intersect) => intersect.object.parent?.name);
 
-  if (intersects[0]) {
+  if (intersects.length > 0) {
+    clearHighlightedPoint();
+    highlightPoint(intersects[0].object.parent.children.find((obj) => obj?.name));
     onLocationClick(event, {
-      locationMarker: intersects[0],
+      locationId: intersects[0].object.parent.name,
+      locationMarker: state.highlightedPoint,
     });
+  }
+}
+
+function highlightPoint(pointObject) {
+  state.highlightedPoint = pointObject;
+  state.highlightedPoint.scale.set(4, 4, 4);
+}
+
+function clearHighlightedPoint() {
+  if (state.highlightedPoint) {
+    state.highlightedPoint.scale.set(1, 1, 1);
+    state.highlightedPoint = null;
   }
 }
 
