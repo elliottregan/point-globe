@@ -27,7 +27,7 @@ export const ARC_LENGTH_OFFSET = 10;
 export const ARC_MAX_DISTANCE = 300;
 
 export const COLOR_1 = '#ef0018';
-export const BRAND_COLORS = [COLOR_1, '#00ef18', '#1800ef'];
+export const BRAND_COLORS = [COLOR_1, '#DB1F3B', '#CE1D41', '#C11B47', '#B41A4D', '#A71853', '#9A1659', '#8C1460', '#791269'];
 
 export const GLOBE_DOT_MIN_OPACITY = 0.125;
 export const GLOBE_DOT_RADIUS = 2.9;
