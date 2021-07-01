@@ -1,6 +1,24 @@
 /* eslint-disable import/prefer-default-export */
 
 /**
+ * Arc Color that the start of the Arc should be drawn with.
+ *
+ * @note If set to a different color than ARC_COLOR_END, it will apply a Smooth Gradient to the
+ * Arc Color, easing between the two colors (BEGIN and END).
+ *
+ */
+export const ARC_COLOR_BEGIN = [255, 0, 0]; // Red
+
+/**
+ * Arc Color that the end of the Arc should be drawn with.
+ *
+ * @note If set to a different color than ARC_COLOR_END, it will apply a Smooth Gradient to the
+ * Arc Color, easing between the two colors (BEGIN and END).
+ *
+ */
+export const ARC_COLOR_END = [140, 0, 255]; // Purple
+
+/**
  * Arc Point Distance at which Arc Length should begin increasing linearly to account for Arcs with
  * exceptionally large distance (ex: across globe, 180 degrees).
  *
