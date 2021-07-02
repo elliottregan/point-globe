@@ -64,7 +64,12 @@ export default function drawCurve(a, b) {
   geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
   geometry.setDrawRange(0, 0);
 
-  const material = new THREE.LineBasicMaterial({ transparent: true, vertexColors: true });
+  const material = new THREE.LineBasicMaterial({
+    linewidth: 2,
+    opacity: 0.75,
+    transparent: true,
+    vertexColors: true,
+  });
 
   const line = new THREE.Line(geometry, material);
   line.currentPoint = 0;
