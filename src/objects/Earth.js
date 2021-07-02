@@ -54,6 +54,42 @@ export class Earth {
           drawArc(drawCurve(a, b));
         }
       }
+
+      let current;
+      let lastContent;
+      let lastUpdated = 0;
+      setInterval(() => {
+        current = null;
+        // eslint-disable-next-line prefer-destructuring
+        current = window.document.getElementsByClassName('location visible')[0];
+        if (current && current.childNodes) {
+          const content = current.textContent;
+          if (content !== lastContent) {
+            lastContent = content;
+            lastUpdated = 0;
+            return;
+          }
+        }
+
+        lastUpdated += 1;
+
+        // 15 Seconds since Last Location Popup Change
+        if (lastUpdated > 150) {
+          // Pick a Random Location
+          const random = Math.round(Math.random() * 80);
+          const selection = window.document.getElementById(`Location__${random}`);
+          if (current && current.classList) {
+            current.classList.remove('visible');
+          }
+
+          if (selection && selection.classList) {
+            selection.classList.add('visible');
+          }
+
+          lastContent = selection.textContent;
+          lastUpdated = 0;
+        }
+      }, 100);
     }
 
     function drawArc(newLine) {
@@ -100,6 +136,10 @@ export class Earth {
       render();
       TWEEN.update(time);
       requestAnimationFrame(animate);
+    }
+
+    function tick() {
+
     }
 
     init();
