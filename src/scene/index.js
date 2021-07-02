@@ -65,6 +65,8 @@ export function render() {
   renderer.render(scene, camera);
 }
 
+let lastClicked = null;
+
 function onClick(event) {
   const rect = renderer.domElement.getBoundingClientRect();
   mouse2.x = ((event.clientX - rect.left) / (rect.right - rect.left)) * 2 - 1;
@@ -72,19 +74,29 @@ function onClick(event) {
 
   raycaster.setFromCamera(mouse2, camera);
   // Find all intersected objects, and filter by those in a named group only.
-  // The location markers are the only objects we care about.
+  // Each marker consists of a
+  // - point (colored dot)
+  // - ring (a ring around the marker)
+  // - hitbox (a sphere object that is used for detecting clicks)
+  // The location marker groups are the only objects we care about.
   const intersects = raycaster
     .intersectObjects(scene.children, true)
     .filter((intersect) => intersect.object.parent?.name);
 
   if (intersects.length > 0) {
-    const locationMarker = intersects[0].object.parent.children.find((obj) => obj?.name);
+    const locationMarkerGroup = intersects[0].object.parent;
+    // Ignore second clicks on already highlighted markers.
+    // This helps helps avoid stacking animations and other edge cases.
+    if (lastClicked?.uuid === locationMarkerGroup.uuid) {
+      return;
+    }
+
     clearHighlightedPoint();
-    highlightPoint(locationMarker);
+    highlightPoint(locationMarkerGroup);
     onLocationClick(event, {
       locationId: intersects[0].object.parent.name,
-      locationMarker,
     });
+    lastClicked = locationMarkerGroup;
   }
 }
 

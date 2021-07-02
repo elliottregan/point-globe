@@ -46,10 +46,10 @@ export class Earth {
       for (let i = 0; i < points[0].length; i += 1) {
         const locationPointGroup = new THREE.Group();
         locationPointGroup.name = `Location__${i}`;
-        locationPointGroup.add(points[0][i]);
-        locationPointGroup.add(points[2][i]);
-        // locationPointGroup.add(points[1][i]); // ring
-        scene.add(locationPointGroup); // hitbox
+        locationPointGroup.add(points[0][i]); // point
+        locationPointGroup.add(points[1][i]); // ring
+        locationPointGroup.add(points[2][i]); // hitbox
+        scene.add(locationPointGroup);
       }
 
       for (let i = 0; i < TOTAL_ARCS; i += 1) {

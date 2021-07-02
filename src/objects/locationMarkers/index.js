@@ -8,9 +8,8 @@ import {
 
 const GLOBE_RADIUS = 150;
 
-function drawPoint(lat, lng, r, i) {
+function drawPoint(lat, lng, r, i, color = COLOR_1) {
   const position = latLongToVector3(lat, lng, GLOBE_RADIUS);
-  const color = getRandomArrayElements(BRAND_COLORS)[0];
   const pointGeometry = new THREE.SphereGeometry(r, 32, 32);
   const pointMaterial = new THREE.MeshBasicMaterial({
     color,
@@ -25,32 +24,32 @@ function drawPoint(lat, lng, r, i) {
   return point;
 }
 
-function drawRing(lat, lng, r, i) {
+function drawRing(lat, lng, r, i, color = COLOR_1) {
   const position = latLongToVector3(lat, lng, GLOBE_RADIUS);
-  const pointRingGeometry = new THREE.RingGeometry(r + 2.8, r + 3, 16);
+  const ringRadius = r + 5;
+  const ringStroke = 0.8;
+  const pointRingGeometry = new THREE.RingGeometry(
+    ringRadius,
+    ringRadius + ringStroke,
+    32,
+    1,
+    0,
+    4,
+  );
   const pointRingMaterial = new THREE.MeshBasicMaterial({
-    color: COLOR_1,
+    color,
+    opacity: 0,
+    transparent: true,
+    // renderOrder: 2,
+    depthTest: false,
     side: THREE.DoubleSide,
   });
 
   const pointRing = new THREE.Mesh(pointRingGeometry, pointRingMaterial);
   pointRing.position.set(position.x, position.y, position.z);
-  // pointRing.scale.set(0.01, 0.01, 0.01);
+  pointRing.scale.set(0, 0, 0);
   pointRing.lookAt(new THREE.Vector3(0, 0, 0));
   pointRing.name = `pointRing__Location__${i}`;
-
-  // new TWEEN.Tween(pointRing.scale)
-  //   .to(
-  //     {
-  //       x: 1,
-  //       y: 1,
-  //       z: 1,
-  //     },
-  //     1500,
-  //   )
-  //   .delay(i * 350 + 1500)
-  //   .easing(TWEEN.Easing.Cubic.Out)
-  //   .start();
 
   return pointRing;
 }
@@ -79,8 +78,9 @@ export default function collectPoints(locationData) {
   for (let i = 0; i < locationData.features.length; i += 1) {
     const lng = locationData.features[i].geometry.coordinates[0];
     const lat = locationData.features[i].geometry.coordinates[1];
-    const locationMarker = drawPoint(lat, lng, 1, i);
-    const markerRing = drawRing(lat, lng, 1, i);
+    const color = getRandomArrayElements(BRAND_COLORS)[0];
+    const locationMarker = drawPoint(lat, lng, 1, i, color);
+    const markerRing = drawRing(lat, lng, 1, i, color);
     const hitbox = drawHitbox(lat, lng, 1, i);
     points.push(locationMarker);
     rings.push(markerRing);
