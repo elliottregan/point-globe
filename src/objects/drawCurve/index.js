@@ -42,7 +42,6 @@ export default function drawCurve(a, b) {
   const colorDiffB = -(colorBegin[2] - colorEnd[2]);
   const colors = [];
   const pointCount = points.length;
-  const positions = new Float32Array(points.length * 3);
   const vertices = [];
   for (let i = 0; i < pointCount; i += 1) {
     const point = points[i];
@@ -53,9 +52,6 @@ export default function drawCurve(a, b) {
     const hsl = rgbToHsl(colorBegin[0] + deltaR, colorBegin[1] + deltaG, colorBegin[2] + deltaB);
     color.setHSL(hsl[0], 1.0, 0.5);
     colors.push(color.r, color.g, color.b);
-    positions[i * 3] = point.x;
-    positions[i * 3 + 1] = points[i].y;
-    positions[i * 3 + 2] = points[i].z;
     vertices.push(point.x, point.y, point.z);
   }
 
