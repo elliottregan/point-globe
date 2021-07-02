@@ -44,7 +44,7 @@ export default function drawCurve(a, b) {
   const pointCount = points.length;
   const positions = new Float32Array(points.length * 3);
   const vertices = [];
-  for (let i = 0; i < points.length; i += 1) {
+  for (let i = 0; i < pointCount; i += 1) {
     const point = points[i];
     const ratio = i / Number(pointCount);
     const deltaR = colorDiffR * ratio;
