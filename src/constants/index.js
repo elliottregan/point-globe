@@ -5,7 +5,6 @@
  *
  * @note If set to a different color than ARC_COLOR_END, it will apply a Smooth Gradient to the
  * Arc Color, easing between the two colors (BEGIN and END).
- *
  */
 export const ARC_COLOR_BEGIN = [255, 0, 0]; // Red
 
@@ -14,7 +13,6 @@ export const ARC_COLOR_BEGIN = [255, 0, 0]; // Red
  *
  * @note If set to a different color than ARC_COLOR_BEGIN, it will apply a Smooth Gradient to the
  * Arc Color, easing between the two colors (BEGIN and END).
- *
  */
 export const ARC_COLOR_END = [140, 0, 255]; // Purple
 
