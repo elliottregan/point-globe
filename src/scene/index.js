@@ -67,7 +67,8 @@ export function render() {
 
 let lastClicked = null;
 
-function onClick(event) {
+function onMouseDown(event) {
+  // Determine if the user is clicking a location marker or attempting to grab the globe
   const rect = renderer.domElement.getBoundingClientRect();
   mouse2.x = ((event.clientX - rect.left) / (rect.right - rect.left)) * 2 - 1;
   mouse2.y = -((event.clientY - rect.top) / (rect.bottom - rect.top)) * 2 + 1;
@@ -93,28 +94,31 @@ function onClick(event) {
 
     clearHighlightedPoint();
     highlightPoint(locationMarkerGroup);
-    onLocationClick(event, {
-      locationId: intersects[0].object.parent.name,
-    });
-    lastClicked = locationMarkerGroup;
+
+    if (intersects[0]) {
+      canvas.style.cursor = 'pointer';
+      onLocationClick(event, {
+        locationId: intersects[0].object.parent.name,
+      });
+      lastClicked = locationMarkerGroup;
+    }
+  } else {
+    event.preventDefault();
+
+    canvas.addEventListener('mouseup', onMouseUp, false);
+    canvas.addEventListener('mousemove', onMouseDownMove, false);
+    canvas.removeEventListener('mousemove', onMouseHoverMove, false);
+    canvas.style.cursor = 'grabbing';
+
+    mouseOnDown.x = -event.clientX;
+    mouseOnDown.y = event.clientY;
+
+    targetOnDown.x = target.x;
+    targetOnDown.y = target.y;
   }
 }
 
-function onMouseDown(event) {
-  event.preventDefault();
-
-  canvas.addEventListener('mouseup', onMouseUp, false);
-  canvas.addEventListener('mousemove', onMouseMove, false);
-  canvas.addEventListener('mouseout', onMouseOut, false);
-
-  mouseOnDown.x = -event.clientX;
-  mouseOnDown.y = event.clientY;
-
-  targetOnDown.x = target.x;
-  targetOnDown.y = target.y;
-}
-
-function onMouseMove(event) {
+function onMouseDownMove(event) {
   mouse.x = event.touches ? -event.touches[0].clientX : -event.clientX;
   mouse.y = event.touches ? event.touches[0].clientY : event.clientY;
 
@@ -126,14 +130,39 @@ function onMouseMove(event) {
 }
 
 function onMouseUp() {
-  canvas.removeEventListener('mousemove', onMouseMove, false);
+  canvas.removeEventListener('mousemove', onMouseDownMove, false);
   canvas.removeEventListener('mouseup', onMouseUp, false);
-  canvas.removeEventListener('mouseout', onMouseOut, false);
+  canvas.addEventListener('mousemove', onMouseHoverMove, false);
+  canvas.style.cursor = 'grab';
+}
+
+function onMouseOver() {
+  canvas.addEventListener('mousedown', onMouseDown, false);
+  canvas.addEventListener('mousemove', onMouseHoverMove, false);
+}
+
+function onMouseHoverMove() {
+  const rect = renderer.domElement.getBoundingClientRect();
+  mouse2.x = ((event.clientX - rect.left) / (rect.right - rect.left)) * 2 - 1;
+  mouse2.y = -((event.clientY - rect.top) / (rect.bottom - rect.top)) * 2 + 1;
+
+  raycaster.setFromCamera(mouse2, camera);
+  // Find all intersectioned object, and filter by named objects only.
+  // The location markers are the only objects we care about.
+  const intersects = raycaster
+    .intersectObjects(scene.children)
+    .filter((intersect) => intersect.object.name);
+
+  if (intersects[0]) {
+    canvas.style.cursor = 'pointer';
+  } else {
+    canvas.style.cursor = 'grab';
+  }
 }
 
 function onMouseOut() {
-  canvas.removeEventListener('mouseup', onMouseUp, false);
-  canvas.removeEventListener('mouseout', onMouseOut, false);
+  canvas.removeEventListener('mousedown', onMouseDown, false);
+  canvas.removeEventListener('mousemove', onMouseHoverMove, false);
 }
 
 function onWindowResize() {
@@ -156,8 +185,8 @@ export function createScene(el) {
   canvas.appendChild(renderer.domElement);
 
   // Events
-  canvas.addEventListener('mousedown', onMouseDown, false);
-  canvas.addEventListener('click', onClick, false);
+  canvas.addEventListener('mouseover', onMouseOver, false);
+  canvas.addEventListener('mouseout', onMouseOut, false);
   window.addEventListener('resize', onWindowResize, false);
 
   return thisScene;

@@ -28,6 +28,10 @@ p {
   line-height: 1.5;
 }
 
+#container {
+  cursor: grab;
+}
+
 canvas {
   animation: in 2s cubic-bezier(0.23, 1, 0.32, 1) 0.25s backwards;
   background: transparent;
