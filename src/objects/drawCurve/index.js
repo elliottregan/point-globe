@@ -45,7 +45,7 @@ export default function drawCurve(a, b) {
   const vertices = [];
   for (let i = 0; i < pointCount; i += 1) {
     const point = points[i];
-    const ratio = i / Number(pointCount);
+    const ratio = i / pointCount;
     const deltaR = colorDiffR * ratio;
     const deltaG = colorDiffG * ratio;
     const deltaB = colorDiffB * ratio;
