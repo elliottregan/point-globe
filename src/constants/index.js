@@ -1,7 +1,7 @@
 /* eslint-disable import/prefer-default-export */
 
 /**
- * Arc Color that the start of the Arc should be drawn with.
+ * Arc Color (RGB) that the start of the Arc should be drawn with.
  *
  * @note If set to a different color than ARC_COLOR_END, it will apply a Smooth Gradient to the
  * Arc Color, easing between the two colors (BEGIN and END).
@@ -10,7 +10,7 @@
 export const ARC_COLOR_BEGIN = [255, 0, 0]; // Red
 
 /**
- * Arc Color that the end of the Arc should be drawn with.
+ * Arc Color (RGB) that the end of the Arc should be drawn with.
  *
  * @note If set to a different color than ARC_COLOR_BEGIN, it will apply a Smooth Gradient to the
  * Arc Color, easing between the two colors (BEGIN and END).

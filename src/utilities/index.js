@@ -97,10 +97,10 @@ function genRandDecimal(min, max, decimalPlaces = 1) {
  * Assumes r, g, and b are contained in the set [0, 255] and
  * returns h, s, and l in the set [0, 1].
  *
- * @param   Number  r       The red color value
- * @param   Number  g       The green color value
- * @param   Number  b       The blue color value
- * @return  Array           The HSL representation
+ * @param Number red - The red color value
+ * @param Number green - The green color value
+ * @param Number blue - The blue color value
+ * @return Array - The HSL representation
  */
 function rgbToHsl(red, green, blue) {
   const r = red / 255;
