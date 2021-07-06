@@ -47,6 +47,21 @@ export const BRAND_COLORS = [COLOR_1, '#DB1F3B', '#CE1D41', '#C11B47', '#B41A4D'
 
 export const GLOBE_DOT_MIN_OPACITY = 0.125;
 export const GLOBE_DOT_RADIUS = 2.9;
+
+/**
+ * Amount of Time, in milliseconds, before Auto-Selection of Location Markers should begin after no
+ * User-Selection has occurred.
+ *
+ * @note This also determines the amount of time between each Auto-Selection of Location Markers
+ * once "autoplay" has begun.
+ */
+export const MARKER_AUTO_SELECT_DELAY = 1000;
+
+/**
+ * The Maximum Distance from the Camera at which Auto-Selected Location Markers can be chosen.
+ */
+export const MARKER_AUTO_SELECT_MAX_DISTANCE = 0.75;
+
 export const TOTAL_ARCS = 20;
 
 export function onLocationClick(event, { locationId }) {
