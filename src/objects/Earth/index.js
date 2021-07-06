@@ -99,11 +99,7 @@ export class Earth {
       const a = randPoints[0].position;
       const b = randPoints[1].position;
       const distance = a.clone().sub(b).length();
-
-      if (distance > ARC_MAX_DISTANCE) {
-        return getRandomPointPositions();
-      }
-      return [a, b];
+      return distance > ARC_MAX_DISTANCE ? getRandomPointPositions() : [a, b];
     }
 
     function drawArc(newLine) {
