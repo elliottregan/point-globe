@@ -55,7 +55,7 @@ export const GLOBE_DOT_RADIUS = 2.9;
  * @note This also determines the amount of time between each Auto-Selection of Location Markers
  * once "autoplay" has begun.
  */
-export const MARKER_AUTO_SELECT_DELAY = 1000;
+export const MARKER_AUTO_SELECT_DELAY = 5000;
 
 /**
  * The Maximum Distance from the Camera at which Auto-Selected Location Markers can be chosen.
