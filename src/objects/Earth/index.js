@@ -20,6 +20,7 @@ import {
   render,
 } from '../../scene';
 import data from '../../data/member_companies.json';
+import { clearHighlightedPoint, highlightPoint } from '../../scene/highlightPoint';
 
 // eslint-disable-next-line import/prefer-default-export
 export class Earth {
@@ -43,6 +44,7 @@ export class Earth {
 
       const points = collectPoints(data);
 
+      const locationPointGroups = [];
       for (let i = 0; i < points[0].length; i += 1) {
         const locationPointGroup = new THREE.Group();
         locationPointGroup.name = `Location__${i}`;
@@ -50,6 +52,7 @@ export class Earth {
         locationPointGroup.add(points[1][i]); // ring
         locationPointGroup.add(points[2][i]); // hitbox
         scene.add(locationPointGroup);
+        locationPointGroups.push(locationPointGroup);
       }
 
       for (let i = 0; i < TOTAL_ARCS; i += 1) {
@@ -77,7 +80,8 @@ export class Earth {
         // 15 Seconds since Last Location Popup Change
         if (lastUpdated > 150) {
           // Pick a Random Location
-          const random = Math.round(Math.random() * 80);
+          const random = Math.round(Math.random() * locationPointGroups.length);
+          const randomGroup = locationPointGroups[random];
           const selection = window.document.getElementById(`Location__${random}`);
           if (current && current.classList) {
             current.classList.remove('visible');
@@ -85,6 +89,8 @@ export class Earth {
 
           if (selection && selection.classList) {
             selection.classList.add('visible');
+            clearHighlightedPoint();
+            highlightPoint(randomGroup);
           }
 
           lastContent = selection.textContent;
