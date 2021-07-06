@@ -95,7 +95,6 @@ export class Earth {
         // Pick a Random Location
         const random = Math.round(Math.random() * (locationPointGroups.length - 1));
         const group = locationPointGroups[random];
-        const selection = window.document.getElementById(`Location__${random}`);
         const a = camera.position.normalize();
         const b = group.children[2].position.normalize();
         const distance = a.clone().sub(b).length();
@@ -109,6 +108,7 @@ export class Earth {
           return;
         }
 
+        const selection = window.document.getElementById(`Location__${random}`);
         if (selection && selection.classList) {
           selection.classList.add('visible');
           clearHighlightedPoint();
