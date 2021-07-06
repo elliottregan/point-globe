@@ -65,7 +65,6 @@ export function render() {
   camera.position.z = camDistance * Math.cos(rotation.x) * Math.cos(rotation.y);
 
   camera.lookAt(new THREE.Vector3(0, 0, 0));
-  // camera.updateProjectionMatrix();
 
   renderer.render(scene, camera);
 }
