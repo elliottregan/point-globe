@@ -1,7 +1,12 @@
 /* eslint-disable no-use-before-define */
 import * as THREE from 'three';
 import * as TWEEN from 'tween.js';
-import { ARC_MAX_DISTANCE, TOTAL_ARCS } from '../../constants';
+import {
+  ARC_MAX_DISTANCE,
+  MARKER_AUTO_SELECT_DELAY,
+  MARKER_AUTO_SELECT_MAX_DISTANCE,
+  TOTAL_ARCS,
+} from '../../constants';
 import drawCurve from '../drawCurve';
 import drawPoints from '../globePoints';
 import {
@@ -17,6 +22,7 @@ import collectPoints from '../locationMarkers';
 import { drawEarth } from '../sphere';
 import {
   createScene,
+  getCamera,
   render,
 } from '../../scene';
 import data from '../../data/member_companies.json';
@@ -59,11 +65,13 @@ export class Earth {
         drawArc(drawCurve(...getRandomPointPositions()));
       }
 
+      const camera = getCamera();
       let current;
+      const delay = MARKER_AUTO_SELECT_DELAY / 100; // Normalize Millisecond Config to "tick count"
       let lastContent;
       let lastUpdated = 0;
+      const raycaster = new THREE.Raycaster();
       setInterval(() => {
-        current = null;
         // eslint-disable-next-line prefer-destructuring
         current = window.document.getElementsByClassName('location visible')[0];
         if (current && current.childNodes) {
@@ -77,26 +85,43 @@ export class Earth {
 
         lastUpdated += 1;
 
-        // 15 Seconds since Last Location Popup Change
-        if (lastUpdated > 150) {
-          // Pick a Random Location
-          const random = Math.round(Math.random() * locationPointGroups.length);
-          const randomGroup = locationPointGroups[random];
-          const selection = window.document.getElementById(`Location__${random}`);
-          if (current && current.classList) {
-            current.classList.remove('visible');
-          }
-
-          if (selection && selection.classList) {
-            selection.classList.add('visible');
-            clearHighlightedPoint();
-            highlightPoint(randomGroup);
-          }
-
-          lastContent = selection.textContent;
-          lastUpdated = 0;
+        // Wait x Seconds since Last Location Popup Change
+        if (lastUpdated > delay) {
+          onAutoUpdate();
         }
       }, 100);
+
+      function onAutoUpdate() {
+        // Pick a Random Location
+        const random = Math.round(Math.random() * (locationPointGroups.length - 1));
+        const group = locationPointGroups[random];
+        const selection = window.document.getElementById(`Location__${random}`);
+        const a = camera.position.normalize();
+        const b = group.children[2].position.normalize();
+        const distance = a.clone().sub(b).length();
+        if (distance > MARKER_AUTO_SELECT_MAX_DISTANCE) {
+          return;
+        }
+
+        raycaster.set(a, b);
+        const result = raycaster.intersectObjects(scene.children, true);
+        if (!result || !result.length) {
+          return;
+        }
+
+        if (selection && selection.classList) {
+          selection.classList.add('visible');
+          clearHighlightedPoint();
+          highlightPoint(group);
+        }
+
+        if (current && current.classList) {
+          current.classList.remove('visible');
+        }
+
+        lastContent = selection.textContent;
+        lastUpdated = 0;
+      }
     }
 
     function getRandomPointPositions() {
