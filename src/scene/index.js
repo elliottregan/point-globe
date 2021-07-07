@@ -1,7 +1,7 @@
 /* eslint-disable no-use-before-define */
 /* eslint-disable import/prefer-default-export */
 import * as THREE from 'three';
-import { onLocationClick } from '../constants';
+import { GLOBE_HOVER_FREEZE_ENABLED, onLocationClick } from '../constants';
 import { clearHighlightedPoint, highlightPoint } from './highlightPoint';
 
 let canvas;
@@ -35,9 +35,8 @@ const targetOnDown = {
 const w = window.innerWidth;
 const h = window.innerHeight;
 const camera = new THREE.PerspectiveCamera(camDistance / 5, w / h, 1, camDistance * 2);
-
+let isHovering = false;
 let renderer;
-
 let scene;
 
 function createRenderer() {
@@ -55,16 +54,16 @@ export function getCamera() {
 }
 
 export function render() {
-  target.x += 0.00075;
-
-  rotation.x += (target.x - rotation.x) * 0.1;
-  rotation.y += (target.y - rotation.y) * 0.1;
+  if (!isHovering || !GLOBE_HOVER_FREEZE_ENABLED) {
+    target.x += 0.00075;
+    rotation.x += (target.x - rotation.x) * 0.1;
+    rotation.y += (target.y - rotation.y) * 0.1;
+    camera.lookAt(new THREE.Vector3(0, 0, 0));
+  }
 
   camera.position.x = camDistance * Math.sin(rotation.x) * Math.cos(rotation.y);
   camera.position.y = camDistance * Math.sin(rotation.y);
   camera.position.z = camDistance * Math.cos(rotation.x) * Math.cos(rotation.y);
-
-  camera.lookAt(new THREE.Vector3(0, 0, 0));
 
   renderer.render(scene, camera);
 }
@@ -151,17 +150,9 @@ function onMouseHoverMove() {
   mouse2.y = -((event.clientY - rect.top) / (rect.bottom - rect.top)) * 2 + 1;
 
   raycaster.setFromCamera(mouse2, camera);
-  // Find all intersectioned object, and filter by named objects only.
-  // The location markers are the only objects we care about.
-  const intersects = raycaster
-    .intersectObjects(scene.children)
-    .filter((intersect) => intersect.object.name);
-
-  if (intersects[0]) {
-    canvas.style.cursor = 'pointer';
-  } else {
-    canvas.style.cursor = 'grab';
-  }
+  const intersects = raycaster.intersectObjects(scene.children);
+  isHovering = !!intersects[0];
+  canvas.style.cursor = isHovering ? 'pointer' : 'grab';
 }
 
 function onMouseOut() {
