@@ -54,6 +54,13 @@ export function getCamera() {
   return camera;
 }
 
+export function getMouse(event) {
+  const rect = renderer.domElement.getBoundingClientRect();
+  mouse2.x = ((event.clientX - rect.left) / (rect.right - rect.left)) * 2 - 1;
+  mouse2.y = -((event.clientY - rect.top) / (rect.bottom - rect.top)) * 2 + 1;
+  return mouse2;
+}
+
 export function isDragging() {
   return drag;
 }
@@ -80,12 +87,7 @@ export function render() {
 let lastClicked = null;
 
 function onMouseDown(event) {
-  // Determine if the user is clicking a location marker or attempting to grab the globe
-  const rect = renderer.domElement.getBoundingClientRect();
-  mouse2.x = ((event.clientX - rect.left) / (rect.right - rect.left)) * 2 - 1;
-  mouse2.y = -((event.clientY - rect.top) / (rect.bottom - rect.top)) * 2 + 1;
-
-  raycaster.setFromCamera(mouse2, camera);
+  raycaster.setFromCamera(getMouse(event), camera);
   // Find all intersected objects, and filter by those in a named group only.
   // Each marker consists of a
   // - point (colored dot)
@@ -162,12 +164,8 @@ function onMouseOver() {
   canvas.addEventListener('mousemove', onMouseHoverMove, false);
 }
 
-function onMouseHoverMove() {
-  const rect = renderer.domElement.getBoundingClientRect();
-  mouse2.x = ((event.clientX - rect.left) / (rect.right - rect.left)) * 2 - 1;
-  mouse2.y = -((event.clientY - rect.top) / (rect.bottom - rect.top)) * 2 + 1;
-
-  raycaster.setFromCamera(mouse2, camera);
+function onMouseHoverMove(event) {
+  raycaster.setFromCamera(getMouse(event), camera);
   const intersects = raycaster.intersectObjects(scene.children);
   hover = !!intersects[0];
   canvas.style.cursor = hover ? 'pointer' : 'grab';
