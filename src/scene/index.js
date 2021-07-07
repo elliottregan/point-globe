@@ -35,6 +35,7 @@ const targetOnDown = {
 const w = window.innerWidth;
 const h = window.innerHeight;
 const camera = new THREE.PerspectiveCamera(camDistance / 5, w / h, 1, camDistance * 2);
+let drag = false;
 let hover = false;
 let renderer;
 let scene;
@@ -53,22 +54,26 @@ export function getCamera() {
   return camera;
 }
 
+export function isDragging() {
+  return drag;
+}
+
 export function isHovering() {
   return hover;
 }
 
 export function render() {
-  if (!hover || !GLOBE_HOVER_FREEZE_ENABLED) {
+  const freeze = !hover || drag || !GLOBE_HOVER_FREEZE_ENABLED;
+  if (freeze) {
     target.x += 0.00075;
     rotation.x += (target.x - rotation.x) * 0.1;
     rotation.y += (target.y - rotation.y) * 0.1;
-    camera.lookAt(new THREE.Vector3(0, 0, 0));
   }
 
   camera.position.x = camDistance * Math.sin(rotation.x) * Math.cos(rotation.y);
   camera.position.y = camDistance * Math.sin(rotation.y);
   camera.position.z = camDistance * Math.cos(rotation.x) * Math.cos(rotation.y);
-
+  camera.lookAt(new THREE.Vector3(0, 0, 0));
   renderer.render(scene, camera);
 }
 
@@ -126,6 +131,10 @@ function onMouseDown(event) {
 }
 
 function onMouseDownMove(event) {
+  if (hover) {
+    drag = true;
+  }
+
   mouse.x = event.touches ? -event.touches[0].clientX : -event.clientX;
   mouse.y = event.touches ? event.touches[0].clientY : event.clientY;
 
@@ -141,6 +150,11 @@ function onMouseUp() {
   canvas.removeEventListener('mouseup', onMouseUp, false);
   canvas.addEventListener('mousemove', onMouseHoverMove, false);
   canvas.style.cursor = 'grab';
+
+  // Allow Drag Rotation "inertia" to continue for 500ms after dragging ends
+  setTimeout(() => {
+    drag = false;
+  }, 500);
 }
 
 function onMouseOver() {
