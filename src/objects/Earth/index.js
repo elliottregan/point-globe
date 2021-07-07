@@ -70,6 +70,7 @@ export class Earth {
       const delay = MARKER_AUTO_SELECT_DELAY / 100; // Normalize Millisecond Config to "tick count"
       let lastContent;
       let lastUpdated = 0;
+      let lastRandom;
       const raycaster = new THREE.Raycaster();
       setInterval(() => {
         // eslint-disable-next-line prefer-destructuring
@@ -94,6 +95,14 @@ export class Earth {
       function onAutoUpdate() {
         // Pick a Random Location
         const random = Math.round(Math.random() * (locationPointGroups.length - 1));
+
+        // Prevent Re-Selection of Same Random Point Twice in a Row
+        if (random === lastRandom) {
+          return;
+        }
+
+        lastRandom = random;
+
         const group = locationPointGroups[random];
         const a = camera.position.normalize();
         const b = group.children[2].position.normalize();
