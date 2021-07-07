@@ -35,7 +35,9 @@ const targetOnDown = {
 const w = window.innerWidth;
 const h = window.innerHeight;
 const camera = new THREE.PerspectiveCamera(camDistance / 5, w / h, 1, camDistance * 2);
+let drag = false;
 let hover = false;
+let hoverMarker = false;
 let renderer;
 let scene;
 
@@ -53,35 +55,40 @@ export function getCamera() {
   return camera;
 }
 
+export function getMouse(event) {
+  const rect = renderer.domElement.getBoundingClientRect();
+  mouse2.x = ((event.clientX - rect.left) / (rect.right - rect.left)) * 2 - 1;
+  mouse2.y = -((event.clientY - rect.top) / (rect.bottom - rect.top)) * 2 + 1;
+  return mouse2;
+}
+
+export function isDragging() {
+  return drag;
+}
+
 export function isHovering() {
   return hover;
 }
 
 export function render() {
-  if (!hover || !GLOBE_HOVER_FREEZE_ENABLED) {
+  const freeze = !hover || drag || !GLOBE_HOVER_FREEZE_ENABLED;
+  if (freeze) {
     target.x += 0.00075;
     rotation.x += (target.x - rotation.x) * 0.1;
     rotation.y += (target.y - rotation.y) * 0.1;
-    camera.lookAt(new THREE.Vector3(0, 0, 0));
   }
 
   camera.position.x = camDistance * Math.sin(rotation.x) * Math.cos(rotation.y);
   camera.position.y = camDistance * Math.sin(rotation.y);
   camera.position.z = camDistance * Math.cos(rotation.x) * Math.cos(rotation.y);
-
+  camera.lookAt(new THREE.Vector3(0, 0, 0));
   renderer.render(scene, camera);
 }
 
 let lastClicked = null;
 
 function onMouseDown(event) {
-  // Determine if the user is clicking a location marker or attempting to grab the globe
-  const rect = renderer.domElement.getBoundingClientRect();
-  mouse2.x = ((event.clientX - rect.left) / (rect.right - rect.left)) * 2 - 1;
-  mouse2.y = -((event.clientY - rect.top) / (rect.bottom - rect.top)) * 2 + 1;
-
-  raycaster.setFromCamera(mouse2, camera);
-
+  raycaster.setFromCamera(getMouse(event), camera);
   const intersects = raycaster.intersectObjects(scene.children, true);
 
   // Handle Event: "Clicked Nothing" (deselect/hide selections)
@@ -136,6 +143,10 @@ function onMouseDown(event) {
 }
 
 function onMouseDownMove(event) {
+  if (hover) {
+    drag = true;
+  }
+
   mouse.x = event.touches ? -event.touches[0].clientX : -event.clientX;
   mouse.y = event.touches ? event.touches[0].clientY : event.clientY;
 
@@ -151,6 +162,11 @@ function onMouseUp() {
   canvas.removeEventListener('mouseup', onMouseUp, false);
   canvas.addEventListener('mousemove', onMouseHoverMove, false);
   canvas.style.cursor = 'grab';
+
+  // Allow Drag Rotation "inertia" to continue for 500ms after dragging ends
+  setTimeout(() => {
+    drag = false;
+  }, 500);
 }
 
 function onMouseOver() {
@@ -158,15 +174,13 @@ function onMouseOver() {
   canvas.addEventListener('mousemove', onMouseHoverMove, false);
 }
 
-function onMouseHoverMove() {
-  const rect = renderer.domElement.getBoundingClientRect();
-  mouse2.x = ((event.clientX - rect.left) / (rect.right - rect.left)) * 2 - 1;
-  mouse2.y = -((event.clientY - rect.top) / (rect.bottom - rect.top)) * 2 + 1;
-
-  raycaster.setFromCamera(mouse2, camera);
-  const intersects = raycaster.intersectObjects(scene.children);
+function onMouseHoverMove(event) {
+  raycaster.setFromCamera(getMouse(event), camera);
+  const intersects = raycaster.intersectObjects(scene.children, true);
+  const filter = intersects.filter((intersect) => intersect.object.parent?.name);
   hover = !!intersects[0];
-  canvas.style.cursor = hover ? 'pointer' : 'grab';
+  hoverMarker = hover && !!filter[0];
+  canvas.style.cursor = hoverMarker ? 'pointer' : 'grab';
 }
 
 function onMouseOut() {
