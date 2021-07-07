@@ -50,6 +50,10 @@ function createRenderer() {
   renderer.setSize(w, h);
 }
 
+export function getCamera() {
+  return camera;
+}
+
 export function render() {
   target.x += 0.00075;
 

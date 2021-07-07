@@ -1,7 +1,12 @@
 /* eslint-disable no-use-before-define */
 import * as THREE from 'three';
 import * as TWEEN from 'tween.js';
-import { ARC_MAX_DISTANCE, TOTAL_ARCS } from '../../constants';
+import {
+  ARC_MAX_DISTANCE,
+  MARKER_AUTO_SELECT_DELAY,
+  MARKER_AUTO_SELECT_MAX_DISTANCE,
+  TOTAL_ARCS,
+} from '../../constants';
 import drawCurve from '../drawCurve';
 import drawPoints from '../globePoints';
 import {
@@ -17,9 +22,11 @@ import collectPoints from '../locationMarkers';
 import { drawEarth } from '../sphere';
 import {
   createScene,
+  getCamera,
   render,
 } from '../../scene';
 import data from '../../data/member_companies.json';
+import { clearHighlightedPoint, highlightPoint } from '../../scene/highlightPoint';
 
 // eslint-disable-next-line import/prefer-default-export
 export class Earth {
@@ -43,6 +50,7 @@ export class Earth {
 
       const points = collectPoints(data);
 
+      const locationPointGroups = [];
       for (let i = 0; i < points[0].length; i += 1) {
         const locationPointGroup = new THREE.Group();
         locationPointGroup.name = `Location__${i}`;
@@ -50,10 +58,77 @@ export class Earth {
         locationPointGroup.add(points[1][i]); // ring
         locationPointGroup.add(points[2][i]); // hitbox
         scene.add(locationPointGroup);
+        locationPointGroups.push(locationPointGroup);
       }
 
       for (let i = 0; i < TOTAL_ARCS; i += 1) {
         drawArc(drawCurve(...getRandomPointPositions()));
+      }
+
+      const camera = getCamera();
+      let current;
+      const delay = MARKER_AUTO_SELECT_DELAY / 100; // Normalize Millisecond Config to "tick count"
+      let lastContent;
+      let lastUpdated = 0;
+      let lastRandom;
+      const raycaster = new THREE.Raycaster();
+      setInterval(() => {
+        // eslint-disable-next-line prefer-destructuring
+        current = window.document.getElementsByClassName('location visible')[0];
+        if (current && current.childNodes) {
+          const content = current.textContent;
+          if (content !== lastContent) {
+            lastContent = content;
+            lastUpdated = 0;
+            return;
+          }
+        }
+
+        lastUpdated += 1;
+
+        // Wait x Seconds since Last Location Popup Change
+        if (lastUpdated > delay) {
+          onAutoUpdate();
+        }
+      }, 100);
+
+      function onAutoUpdate() {
+        // Pick a Random Location
+        const random = Math.round(Math.random() * (locationPointGroups.length - 1));
+
+        // Prevent Re-Selection of Same Random Point Twice in a Row
+        if (random === lastRandom) {
+          return;
+        }
+
+        const group = locationPointGroups[random];
+        const a = camera.position.normalize();
+        const b = group.children[2].position.normalize();
+        const distance = a.clone().sub(b).length();
+        if (distance > MARKER_AUTO_SELECT_MAX_DISTANCE) {
+          return;
+        }
+
+        raycaster.set(a, b);
+        const result = raycaster.intersectObjects(scene.children, true);
+        if (!result || !result.length) {
+          return;
+        }
+
+        const selection = window.document.getElementById(`Location__${random}`);
+        if (selection && selection.classList) {
+          selection.classList.add('visible');
+          clearHighlightedPoint();
+          highlightPoint(group);
+        }
+
+        if (current && current.classList) {
+          current.classList.remove('visible');
+        }
+
+        lastContent = selection.textContent;
+        lastRandom = random;
+        lastUpdated = 0;
       }
     }
 
@@ -63,11 +138,7 @@ export class Earth {
       const a = randPoints[0].position;
       const b = randPoints[1].position;
       const distance = a.clone().sub(b).length();
-
-      if (distance > ARC_MAX_DISTANCE) {
-        return getRandomPointPositions();
-      }
-      return [a, b];
+      return distance > ARC_MAX_DISTANCE ? getRandomPointPositions() : [a, b];
     }
 
     function drawArc(newLine) {
