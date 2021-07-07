@@ -37,6 +37,7 @@ const h = window.innerHeight;
 const camera = new THREE.PerspectiveCamera(camDistance / 5, w / h, 1, camDistance * 2);
 let drag = false;
 let hover = false;
+let hoverMarker = false;
 let renderer;
 let scene;
 
@@ -166,9 +167,11 @@ function onMouseOver() {
 
 function onMouseHoverMove(event) {
   raycaster.setFromCamera(getMouse(event), camera);
-  const intersects = raycaster.intersectObjects(scene.children);
+  const intersects = raycaster.intersectObjects(scene.children, true);
+  const filter = intersects.filter((intersect) => intersect.object.parent?.name);
   hover = !!intersects[0];
-  canvas.style.cursor = hover ? 'pointer' : 'grab';
+  hoverMarker = hover && !!filter[0];
+  canvas.style.cursor = hoverMarker ? 'pointer' : 'grab';
 }
 
 function onMouseOut() {
