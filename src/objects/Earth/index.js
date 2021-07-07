@@ -101,8 +101,6 @@ export class Earth {
           return;
         }
 
-        lastRandom = random;
-
         const group = locationPointGroups[random];
         const a = camera.position.normalize();
         const b = group.children[2].position.normalize();
@@ -129,6 +127,7 @@ export class Earth {
         }
 
         lastContent = selection.textContent;
+        lastRandom = random;
         lastUpdated = 0;
       }
     }
