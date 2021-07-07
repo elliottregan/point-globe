@@ -35,7 +35,7 @@ const targetOnDown = {
 const w = window.innerWidth;
 const h = window.innerHeight;
 const camera = new THREE.PerspectiveCamera(camDistance / 5, w / h, 1, camDistance * 2);
-let isHovering = false;
+let hover = false;
 let renderer;
 let scene;
 
@@ -53,8 +53,12 @@ export function getCamera() {
   return camera;
 }
 
+export function isHovering() {
+  return hover;
+}
+
 export function render() {
-  if (!isHovering || !GLOBE_HOVER_FREEZE_ENABLED) {
+  if (!hover || !GLOBE_HOVER_FREEZE_ENABLED) {
     target.x += 0.00075;
     rotation.x += (target.x - rotation.x) * 0.1;
     rotation.y += (target.y - rotation.y) * 0.1;
@@ -151,8 +155,8 @@ function onMouseHoverMove() {
 
   raycaster.setFromCamera(mouse2, camera);
   const intersects = raycaster.intersectObjects(scene.children);
-  isHovering = !!intersects[0];
-  canvas.style.cursor = isHovering ? 'pointer' : 'grab';
+  hover = !!intersects[0];
+  canvas.style.cursor = hover ? 'pointer' : 'grab';
 }
 
 function onMouseOut() {
