@@ -51,7 +51,8 @@ export const GLOBE_DOT_RADIUS = 2.9;
 /**
  * Determines if the Globe Rotation/Position should "freeze" when Hovering the Mouse over it.
  *
- * @note This will not "freeze" Arc / Location Marker Auto-Selection
+ * @note This will "freeze" Location Marker Auto-Selection
+ * @note This will not "freeze" Arcs
  */
 export const GLOBE_HOVER_FREEZE_ENABLED = true;
 
