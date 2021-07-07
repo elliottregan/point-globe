@@ -81,20 +81,29 @@ function onMouseDown(event) {
   mouse2.y = -((event.clientY - rect.top) / (rect.bottom - rect.top)) * 2 + 1;
 
   raycaster.setFromCamera(mouse2, camera);
-  // Find all intersected objects, and filter by those in a named group only.
-  // Each marker consists of a
-  // - point (colored dot)
-  // - ring (a ring around the marker)
-  // - hitbox (a sphere object that is used for detecting clicks)
-  // The location marker groups are the only objects we care about.
-  const intersects = raycaster
-    .intersectObjects(scene.children, true)
-    .filter((intersect) => intersect.object.parent?.name);
 
-  if (intersects.length > 0) {
-    const locationMarkerGroup = intersects[0].object.parent;
-    // Ignore second clicks on already highlighted markers.
-    // This helps helps avoid stacking animations and other edge cases.
+  const intersects = raycaster.intersectObjects(scene.children, true);
+  if (!intersects || !intersects[0]) {
+    console.log('Clicked Nothing!');
+    clearHighlightedPoint();
+    const selection = window.document.getElementsByClassName('location visible')[0];
+    if (selection && selection.classList) {
+      selection.classList.remove('visible');
+    }
+  }
+
+  /**
+   * Find all intersected objects, and filter by those in a named group only.
+   *
+   * Each marker consists of a:
+   * - point (colored dot)
+   * - ring (a ring around the marker)
+   * - hitbox (a sphere object that is used for detecting clicks)
+   */
+  const filter = intersects.filter((intersect) => intersect.object.parent?.name);
+  if (filter.length > 0) {
+    const locationMarkerGroup = filter[0].object.parent;
+    // Ignore second clicks on already highlighted markers (avoids edge cases)
     if (lastClicked?.uuid === locationMarkerGroup.uuid) {
       return;
     }
@@ -102,10 +111,10 @@ function onMouseDown(event) {
     clearHighlightedPoint();
     highlightPoint(locationMarkerGroup);
 
-    if (intersects[0]) {
+    if (filter[0]) {
       canvas.style.cursor = 'pointer';
       onLocationClick(event, {
-        locationId: intersects[0].object.parent.name,
+        locationId: filter[0].object.parent.name,
       });
       lastClicked = locationMarkerGroup;
     }
