@@ -26,13 +26,20 @@ export function highlightPoint(locationMarkerGroup) {
 
 export function clearHighlightedPoint() {
   if (state.highlightedPoint) {
-    state.currentTweenAnimation.stop();
-    state.currentRingAnimation.stop();
+    if (state.currentTweenAnimation) {
+      state.currentTweenAnimation.stop();
+    }
+
+    if (state.currentRingAnimation) {
+      state.currentRingAnimation.stop();
+    }
 
     deflatePoint(state.highlightedPoint).start();
     deflateRing(state.highlightedPointRing)
       .onComplete(() => {
-        state.previousSpinAnimation.stop();
+        if (state.previousSpinAnimation) {
+          state.previousSpinAnimation.stop();
+        }
       })
       .start();
 
