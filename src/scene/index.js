@@ -84,7 +84,6 @@ function onMouseDown(event) {
 
   const intersects = raycaster.intersectObjects(scene.children, true);
   if (!intersects || !intersects[0]) {
-    console.log('Clicked Nothing!');
     clearHighlightedPoint();
     const selection = window.document.getElementsByClassName('location visible')[0];
     if (selection && selection.classList) {
