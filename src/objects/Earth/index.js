@@ -4,6 +4,7 @@ import * as TWEEN from 'tween.js';
 import {
   ARC_MAX_DISTANCE,
   MARKER_AUTO_SELECT_DELAY,
+  MARKER_AUTO_SELECT_INIT_AFTER,
   MARKER_AUTO_SELECT_MAX_DISTANCE,
   TOTAL_ARCS,
 } from '../../constants';
@@ -92,13 +93,25 @@ export class Earth {
         }
       }, 100);
 
+      // Start AutoUpdate x Seconds After Page Load
+      if (MARKER_AUTO_SELECT_INIT_AFTER > 0) {
+        setTimeout(() => {
+          // Safely RayCast in Loop via Max Attempts
+          for (let attempts = 0; attempts < 100; attempts += 1) {
+            if (onAutoUpdate()) {
+              break;
+            }
+          }
+        }, MARKER_AUTO_SELECT_INIT_AFTER);
+      }
+
       function onAutoUpdate() {
         // Pick a Random Location
         const random = Math.round(Math.random() * (locationPointGroups.length - 1));
 
         // Prevent Re-Selection of Same Random Point Twice in a Row
         if (random === lastRandom) {
-          return;
+          return false;
         }
 
         const group = locationPointGroups[random];
@@ -106,13 +119,13 @@ export class Earth {
         const b = group.children[2].position.normalize();
         const distance = a.clone().sub(b).length();
         if (distance > MARKER_AUTO_SELECT_MAX_DISTANCE) {
-          return;
+          return false;
         }
 
         raycaster.set(a, b);
         const result = raycaster.intersectObjects(scene.children, true);
         if (!result || !result.length) {
-          return;
+          return false;
         }
 
         const selection = window.document.getElementById(`Location__${random}`);
@@ -129,6 +142,7 @@ export class Earth {
         lastContent = selection.textContent;
         lastRandom = random;
         lastUpdated = 0;
+        return true;
       }
     }
 
