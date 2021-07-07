@@ -49,6 +49,13 @@ export const GLOBE_DOT_MIN_OPACITY = 0.125;
 export const GLOBE_DOT_RADIUS = 2.9;
 
 /**
+ * Determines if the Globe Rotation/Position should "freeze" when Hovering the Mouse over it.
+ *
+ * @note This will not "freeze" Arc / Location Marker Auto-Selection
+ */
+export const GLOBE_HOVER_FREEZE_ENABLED = true;
+
+/**
  * Amount of Time, in milliseconds, before Auto-Selection of Location Markers should begin after no
  * User-Selection has occurred.
  *
