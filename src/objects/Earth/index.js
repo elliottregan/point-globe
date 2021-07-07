@@ -24,6 +24,7 @@ import { drawEarth } from '../sphere';
 import {
   createScene,
   getCamera,
+  isHovering,
   render,
 } from '../../scene';
 import data from '../../data/member_companies.json';
@@ -74,6 +75,10 @@ export class Earth {
       let lastRandom;
       const raycaster = new THREE.Raycaster();
       setInterval(() => {
+        if (isHovering()) {
+          return;
+        }
+
         // eslint-disable-next-line prefer-destructuring
         current = window.document.getElementsByClassName('location visible')[0];
         if (current && current.childNodes) {
