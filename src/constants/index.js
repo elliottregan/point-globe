@@ -47,6 +47,7 @@ export const BRAND_COLORS = [COLOR_1, '#DB1F3B', '#CE1D41', '#C11B47', '#B41A4D'
 
 export const GLOBE_DOT_MIN_OPACITY = 0.175;
 export const GLOBE_DOT_RADIUS = 2.99;
+export const GLOBE_ROTATION_SPEED = 0.001185;
 
 /**
  * Determines if the Globe Rotation/Position should "freeze" when Hovering the Mouse over it.

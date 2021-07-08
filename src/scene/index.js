@@ -1,7 +1,7 @@
 /* eslint-disable no-use-before-define */
 /* eslint-disable import/prefer-default-export */
 import * as THREE from 'three';
-import { GLOBE_HOVER_FREEZE_ENABLED, onLocationClick } from '../constants';
+import { GLOBE_HOVER_FREEZE_ENABLED, onLocationClick, GLOBE_ROTATION_SPEED } from '../constants';
 import { clearHighlightedPoint, highlightPoint } from './highlightPoint';
 
 let canvas;
@@ -73,7 +73,7 @@ export function isHovering() {
 export function render() {
   const freeze = !hover || drag || !GLOBE_HOVER_FREEZE_ENABLED;
   if (freeze) {
-    target.x += 0.001185;
+    target.x += GLOBE_ROTATION_SPEED;
     rotation.x += (target.x - rotation.x) * 0.1;
     rotation.y += (target.y - rotation.y) * 0.1;
   }
