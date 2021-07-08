@@ -80,6 +80,11 @@ export const MARKER_AUTO_SELECT_MAX_DISTANCE = 0.75;
 
 export const TOTAL_ARCS = 20;
 
+/**
+ * Whether or not the the active location marker should be deselected if clicking outside the canvas
+ */
+export const MARKER_CLICK_OFF_CANVAS_DESELECTION = true;
+
 export function onLocationClick(event, { locationId }) {
   const thisCard = document.getElementById(locationId);
 

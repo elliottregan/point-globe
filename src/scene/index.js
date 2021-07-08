@@ -199,11 +199,6 @@ function onWindowResize() {
 }
 
 export function createScene(el) {
-  // Expose Public Methods for Usage in External Javascript
-  window.globe = {
-    clickedNothing,
-  };
-
   canvas = el;
   createRenderer();
   const thisScene = new THREE.Scene();
