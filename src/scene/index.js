@@ -51,6 +51,14 @@ function createRenderer() {
   renderer.setSize(w, h);
 }
 
+export function clickedNothing() {
+  clearHighlightedPoint();
+  const selection = window.document.getElementsByClassName('globe-location-card visible')[0];
+  if (selection && selection.classList) {
+    selection.classList.remove('visible');
+  }
+}
+
 export function getCamera() {
   return camera;
 }
@@ -71,8 +79,8 @@ export function isHovering() {
 }
 
 export function render() {
-  const freeze = !hover || drag || !GLOBE_HOVER_FREEZE_ENABLED;
-  if (freeze) {
+  const motion = !hover || drag || !GLOBE_HOVER_FREEZE_ENABLED;
+  if (motion) {
     target.x += GLOBE_ROTATION_SPEED;
     rotation.x += (target.x - rotation.x) * 0.1;
     rotation.y += (target.y - rotation.y) * 0.1;
@@ -93,11 +101,7 @@ function onMouseDown(event) {
 
   // Handle Event: "Clicked Nothing" (deselect/hide selections)
   if (!intersects || !intersects[0]) {
-    clearHighlightedPoint();
-    const selection = window.document.getElementsByClassName('globe-location-card visible')[0];
-    if (selection && selection.classList) {
-      selection.classList.remove('visible');
-    }
+    clickedNothing();
   }
 
   /**
@@ -195,6 +199,11 @@ function onWindowResize() {
 }
 
 export function createScene(el) {
+  // Expose Public Methods for Usage in External Javascript
+  window.globe = {
+    clickedNothing,
+  };
+
   canvas = el;
   createRenderer();
   const thisScene = new THREE.Scene();
