@@ -71,7 +71,7 @@ export default function drawPoints(maskImageData) {
 
   const newDotMaterial = new THREE.ShaderMaterial({
     uniforms: {
-      color: { value: new THREE.Color(0xffffff) },
+      color: { value: new THREE.Color(0xFFFFFF) },
     },
     vertexShader,
     fragmentShader,

@@ -7,23 +7,25 @@
     <title>Vite App</title>
   </head>
   <body>
-    <div id="container"></div>
+    <div data-globe></div>
     <div class="locations">
       <pug src="src/templates/locations.pug" />
     </div>
     <script type="module" src="/main.js"></script>
 
   <style>
-    .location {
+    .globe-location-card {
       background: #fff;
       padding: 1em;
       opacity: 0;
       position: fixed;
+      visibility: hidden;
       top: 1em;
       right: 1em;
-      transition: opacity ease 1s;
+      transition: opacity ease 0.5s, visibility ease 0.5s;
     }
-    .location.visible {
+    .globe-location-card.visible {
+      visibility: visible;
       opacity: 1;
     }
   </style>

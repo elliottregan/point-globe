@@ -40,13 +40,13 @@ export const ARC_LENGTH_OFFSET = 10;
  *
  * @note This will prevent Arcs from being drawn between points with distance > ARC_MAX_DISTANCE
  */
-export const ARC_MAX_DISTANCE = 250;
+export const ARC_MAX_DISTANCE = 225;
 
-export const COLOR_1 = '#ef0018';
+export const COLOR_1 = '#EF2233';
 export const BRAND_COLORS = [COLOR_1, '#DB1F3B', '#CE1D41', '#C11B47', '#B41A4D', '#A71853', '#9A1659', '#8C1460', '#791269'];
 
-export const GLOBE_DOT_MIN_OPACITY = 0.125;
-export const GLOBE_DOT_RADIUS = 2.9;
+export const GLOBE_DOT_MIN_OPACITY = 0.175;
+export const GLOBE_DOT_RADIUS = 2.99;
 
 /**
  * Determines if the Globe Rotation/Position should "freeze" when Hovering the Mouse over it.
@@ -82,7 +82,7 @@ export const TOTAL_ARCS = 20;
 export function onLocationClick(event, { locationId }) {
   const thisCard = document.getElementById(locationId);
 
-  document.querySelectorAll('.location').forEach((card) => card.classList.remove('visible'));
+  document.querySelectorAll('.globe-location-card').forEach((card) => card.classList.remove('visible'));
   if (thisCard) {
     thisCard.classList.add('visible');
   }

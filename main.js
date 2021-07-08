@@ -5,7 +5,7 @@ import './style.css';
 
 import { Earth } from './src/objects/Earth';
 
-const container = document.getElementById('container');
+const container = document.querySelector('[data-globe]');
 const planet = new Earth(container, {
   mapUrl: '/images/earthspec1k.jpg',
 });
