@@ -1,7 +1,7 @@
 /* eslint-disable no-use-before-define */
 /* eslint-disable import/prefer-default-export */
 import * as THREE from 'three';
-import { GLOBE_HOVER_FREEZE_ENABLED, onLocationClick } from '../constants';
+import { GLOBE_HOVER_FREEZE_ENABLED, onLocationClick, GLOBE_ROTATION_SPEED } from '../constants';
 import { clearHighlightedPoint, highlightPoint } from './highlightPoint';
 
 let canvas;
@@ -73,7 +73,7 @@ export function isHovering() {
 export function render() {
   const freeze = !hover || drag || !GLOBE_HOVER_FREEZE_ENABLED;
   if (freeze) {
-    target.x += 0.00075;
+    target.x += GLOBE_ROTATION_SPEED;
     rotation.x += (target.x - rotation.x) * 0.1;
     rotation.y += (target.y - rotation.y) * 0.1;
   }
@@ -94,7 +94,7 @@ function onMouseDown(event) {
   // Handle Event: "Clicked Nothing" (deselect/hide selections)
   if (!intersects || !intersects[0]) {
     clearHighlightedPoint();
-    const selection = window.document.getElementsByClassName('location visible')[0];
+    const selection = window.document.getElementsByClassName('globe-location-card visible')[0];
     if (selection && selection.classList) {
       selection.classList.remove('visible');
     }
@@ -198,7 +198,7 @@ export function createScene(el) {
   canvas = el;
   createRenderer();
   const thisScene = new THREE.Scene();
-  const light = new THREE.PointLight('#aaa', 0.35);
+  const light = new THREE.PointLight('#fff', 0.35);
 
   thisScene.add(camera);
   camera.add(light);

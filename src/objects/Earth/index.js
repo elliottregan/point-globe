@@ -80,7 +80,7 @@ export class Earth {
         }
 
         // eslint-disable-next-line prefer-destructuring
-        current = window.document.getElementsByClassName('location visible')[0];
+        current = window.document.getElementsByClassName('globe-location-card visible')[0];
         if (current && current.childNodes) {
           const content = current.textContent;
           if (content !== lastContent) {
@@ -129,7 +129,7 @@ export class Earth {
 
         raycaster.set(a, b);
         const result = raycaster.intersectObjects(scene.children, true);
-        if (!result || !result.length) {
+        if (!result || !result.length > 0) {
           return false;
         }
 
