@@ -14,7 +14,7 @@
     "vite-plugin-pug": "^0.3.0"
   },
   "dependencies": {
-    "three": "^0.128.0",
+    "three": "^0.137.0",
     "tween.js": "^16.6.0"
   }
 }
